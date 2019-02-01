@@ -1,0 +1,82 @@
+<nb-card>
+    <nb-card-header>
+        人员管理
+    </nb-card-header>
+    <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <select name="searchType" [(ngModel)]="searchType" class="search_select"
+                            style="margin-left: 0;margin-right: 20px;">
+                        <option value="1">姓名</option>
+                        <option value="2">手机号</option>
+                        <option value="3">部门</option>
+                        <option value="4">角色</option>
+                    </select>
+                    <input type="text" class="search_input" placeholder="请输入关键字查询，选择查询内容" [(ngModel)]="searchItem">
+                    <button class="search_btn" (click)="search()">查询</button>
+                    <button class="search_btn" (click)="reset()">重置</button>
+                    <!--<button class="search_btn" *ngIf="checked.length>0" (click)="batch()">批量编辑</button>-->
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 0;">
+                <div class="department" style="position: absolute;right: 20px;top:20px;">
+                    <button class="btn {{ settingsBtn[0].class }} btn-demo" style="right: 0!important;;width: 152px!important;;font-size: 16px;!important;" (click)="export()">
+                        组织架构信息导出
+                    </button>
+                </div>
+            </div>
+            <table cellspacing="0" class="modified">
+                <tr>
+                    <th>人员id</th>
+                    <th>部门</th>
+                    <th>职位</th>
+                    <th>钉钉id</th>
+                    <th>姓名</th>
+                    <th>手机号</th>
+                    <th>是否激活</th>
+                    <th>角色</th>
+                    <th>操作</th>
+                </tr>
+                <ng-container *ngIf="personnelInfo.length>0">
+                    <tr *ngFor="let personnel of personnelInfo;">
+                        <td>{{personnel.id}}</td>
+                        <td>{{personnel.department}}</td>
+                        <td>{{personnel.position}}</td>
+                        <td>{{personnel.userid }}</td>
+                        <td>{{personnel.name}}</td>
+                        <td>{{personnel.mobile}}</td>
+                        <td>{{personnel.active | customPipe}}</td>
+                        <td>{{personnel.roles}}</td>
+                        <td>
+                            <button class="btn myBtn-view" title="添加角色" (click)="addRole(personnel.userid,isAdd)">添加角色</button>
+                            <button class="btn myBtn-view" title="移除角色" (click)="removeRole(personnel.userid,!isAdd)">移除角色</button>
+                            <button class="btn myBtn-view" title="查看详情"(click)="showDetail(personnel.id)">查看详情</button>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="personnelInfo.length==0">
+                    <tr>
+                        <td colspan="9">查无结果</td>
+                    </tr>
+                </ng-container>
+            </table>
+        </div>
+        <div *ngIf="personnelInfo">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <label class="totalElements">共{{totalElements}}条记录</label>
+                <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                    <option value='10'>10条/页</option>
+                    <option value='15'>15条/页</option>
+                    <option value='20'>20条/页</option>
+                    <option value='30'>30条/页</option>
+                    <option value='50'>50条/页</option>
+                </select>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

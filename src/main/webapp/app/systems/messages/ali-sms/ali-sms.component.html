@@ -1,0 +1,56 @@
+<nb-card>
+    <nb-card-header>
+        短信推送
+    </nb-card-header>
+    <nb-card-body>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <input type="text" class="search_input" placeholder="请输入关键字查询" [(ngModel)]="searchItem">
+                    <button class="search_btn" (click)="search()">查询</button>
+                </div>
+                <!--<button class="btn {{ settingsBtn[0].class }} btn-demo" (click)="add()">{{-->
+                <!--settingsBtn[0].buttonTitle}}-->
+                <!--</button>-->
+            </div>
+            <table cellspacing="0">
+                <tr>
+                    <th>id</th>
+                    <th>推送类型</th>
+                    <th>推送号码</th>
+                    <th>推送内容</th>
+                    <th>推送状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let ali of alis;">
+                    <td>{{ali.id}}</td>
+                    <td>{{ali.kind}}</td>
+                    <td>{{ali.phone}}</td>
+                    <td>{{ali.content}}</td>
+                    <td><span *ngIf="ali.status == 1">已发送</span></td>
+                    <td>
+                        <button title="查看"><i class="ion-ios-eye-outline" (click)="check(ali.id)"></i></button>
+                        <button title="删除"><i class="ion-trash-a" (click)="delete(ali.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="alis">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="10000" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+                <!--<ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"-->
+                                <!--[boundaryLinks]="true" (pageChange)="loadPage(page)">-->
+                <!--</ngb-pagination>-->
+                <!--<label class="totalElements">共{{totalElements}}条记录</label>-->
+                <!--<select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">-->
+                    <!--<option value='10'>10条/页</option>-->
+                    <!--<option value='15'>15条/页</option>-->
+                    <!--<option value='20'>20条/页</option>-->
+                    <!--<option value='30'>30条/页</option>-->
+                    <!--<option value='50'>50条/页</option>-->
+                <!--</select>-->
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

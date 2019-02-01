@@ -1,0 +1,116 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">创建或编辑优惠券申请</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body" *ngIf="coupon">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" *ngIf="shops">
+            <label>选择店铺</label>
+            <select id="selectedShop" class="form-control" [(ngModel)]="selectedShopId"  [ngModelOptions]="{standalone: true}" (change)="onSelectedShop($event)">
+                <option value="0">请选择</option>
+                <option  *ngFor="let shop of shops" value="{{shop.id}}">
+                    {{shop.shopName}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>使用对象</label>
+            <select class="form-control" [(ngModel)]="selectedObjApplyType" (ngModelChange)="change()" [ngModelOptions]="{standalone: true}" >
+                <option value="0">请选择</option>
+                <option value="3">店铺</option>
+                <option value="4">商品</option>
+            </select>
+        </div>
+        <div class="form-group" >
+            <label>优惠券类型</label>
+            <input type="text" class="form-control" value="店铺优惠券"  *ngIf="couponType==3" disabled="disabled"/>
+            <input type="text" class="form-control" value="商品优惠券"  *ngIf="couponType==4" disabled="disabled"/>
+        </div>
+        <div class="form-group" >
+            <label>优惠券面额</label>
+            <input type="text" class="form-control" placeholder="请输入金额（单位：元）" [(ngModel)]="couponPrice " />
+        </div>
+        <div class="form-group" >
+            <label>优惠券门槛</label>
+            <input type="text" class="form-control" placeholder="请输入金额（单位：元）" [(ngModel)]="limitPrice " />
+        </div>
+        <div class="form-group">
+            <label>开始时间</label>
+            <input type="text" class="form-control" placeholder="请输入开始时间(格式：2018-05-01)"
+                   [(ngModel)]="coupon.startDate"
+                   name="startDate" (change)="chooseStartDate()"/>
+        </div>
+        <div class="form-group">
+            <label>结束时间</label>
+            <input type="text" class="form-control" placeholder="请输入开始时间(格式：2018-05-01)"
+                   [(ngModel)]="coupon.endDate"
+                   name="endDate" (change)="chooseEndDate()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label">破价确认</label>
+            <select class="form-control" [(ngModel)]="breakingPrice"[ngModelOptions]="{standalone: true}">
+                <option value="0">请选择</option>
+                <option value="1">是</option>
+                <option value="2">否</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>申请理由</label>
+            <input type="text" class="form-control" placeholder="请输入申请理由"
+                   [(ngModel)]="applyReason" name="applyReason"/>
+        </div>
+        <div class="form-group">
+            <label>选择默认审批人：</label><br>
+            <label>选择部门</label>
+            <select id="selectedDepartment" class="form-control" (change)="onSelectedDepartment()">
+                <option>请选择</option>
+                <option value="" *ngFor="let department of departments" value="{{department.id}}">
+                    {{department.name}}
+                </option>
+            </select>
+            <label>选择部门成员</label>
+            <select id="selectedDepartmentUser" class="form-control" (change)="onSelectedDepartmentUser()"
+                    *ngIf="departmentUsers !=null">
+                <option>请选择</option>
+                <option *ngFor="let departmentUser of departmentUsers" value="{{departmentUser.name}}"
+                        data-value="{{departmentUser.userId}}">
+                    {{departmentUser.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" readonly *ngIf="departmentUsers !=null">
+            <div *ngFor="let approver of selectedApproverList" style="padding-left: 20px;">
+                <span class="choosedApprover" (click)="removeFormSelectedApproverList(approver)">{{approver.dingName}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>选择默认抄送人：</label>
+            <label>选择部门</label>
+            <select id="selectedCopyToDepartment" class="form-control" (change)="onSelectedCopyToDepartment()">
+                <option>请选择</option>
+                <option value="" *ngFor="let department of departments" value="{{department.id}}">
+                    {{department.name}}
+                </option>
+            </select>
+            <label>选择部门成员</label>
+            <select id="selectedCopyToDepartmentUser" class="form-control"
+                    (change)="onSelectedCopyToDepartmentUser()"
+                    *ngIf="copyToDepartmentUsers !=null">
+                <option>请选择</option>
+                <option *ngFor="let copyToDepartmentUser of copyToDepartmentUsers"
+                        value="{{copyToDepartmentUser.name}}" data-value="{{copyToDepartmentUser.userId}}">
+                    {{copyToDepartmentUser.name}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()"><span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary"><span>保存</span>
+        </button>
+    </div>
+</form>

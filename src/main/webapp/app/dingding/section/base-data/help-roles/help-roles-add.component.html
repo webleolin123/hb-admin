@@ -1,0 +1,63 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">创建帮助规则</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group">
+            <label>选择模块</label>
+            <select id="selectedModule" class="form-control" [(ngModel)]="bModule"
+                    name="businessType" (change)="onSelectedModuleChange()">
+                <option>请选择</option>
+                <option *ngFor="let businessModule of businessModules" value="{{businessModule}}">{{businessModule.businessName}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>问题</label>
+            <input type="text" class="form-control" placeholder="请输入问题" [(ngModel)]="helpRoles.question"
+                   name="question"/>
+        </div>
+        <div class="form-group">
+            <label>答案</label>
+            <input type="text" class="form-control" placeholder="请输入答案" [(ngModel)]="helpRoles.answerStr"
+                   name="answerStr"/>
+        </div>
+        <div class="form-group">
+            <label>答案</label>
+            <ngx-tiny-mce></ngx-tiny-mce>
+            <iframe id="form_target" name="form_target" style="display:none"></iframe>
+            <form style="width:0px;height:0;overflow:hidden" id="image_form">
+                <input id="img_input" name="image" type="file" ng2FileSelect [uploader]="uploader"
+                       (change)="fileInputChangeHandler()"  >
+                <input id="temp" type="text">
+            </form>
+        </div>
+        <div class="form-group">
+            <label>是否需要通知</label>
+            <select class="form-control" name="isNeedToNotify " [(ngModel)]="helpRoles.isNeedToNotify ">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>有效期</label>
+            <input type="text" class="form-control" placeholder="请输入有效期(格式：2018-05-01)"
+                   [(ngModel)]="validityPeriod " name="validityPeriod"/>
+        </div>
+        <div class="form-group">
+            <label>排序</label>
+            <input type="number" class="form-control" placeholder="排序" [(ngModel)]="helpRoles.order"
+                   name="answerStr"/>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-floppy-o"></span>&nbsp;<span>保存</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">消息通知详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" id="zhiTongChe_detail" *ngIf="message">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <!--<img *ngIf="" src="{{baseImageUrl+message.targetImage.substring(0, 32)}}" alt="" class="statusImg"-->
+                <!--style="width: 150px;height: 90px;">-->
+                <div class="card-content">
+                    <p class="shop"><span>&#x3000;&#x3000;标题</span><span>{{message.title}}</span></p>
+                    <p class="shop"><span>&#x3000;&#x3000;内容</span><span class="goodName">{{message.content}}</span></p>
+                    <p class="shop"><span>&#x3000;业务值</span><span class="goodName">{{message.value}}</span></p>
+                    <p class="shop"><span>消息类型</span><span>{{message.msgType}}</span></p>
+                    <p class="shop"><span>是否推送</span><span *ngIf="message.needPush == 0">否</span><span
+                        *ngIf="message.needPush == 1">是</span></p>
+                    <p class="shop"><span>目标类型</span><span *ngIf="message.targetType == 1">全体</span><span
+                        *ngIf="message.targetType == 2">个人</span></p>
+                    <p class="shop"><span>业务种类</span><span *ngIf="message.kind == 1">评论</span><span
+                        *ngIf="message.kind == 2">关注</span><span *ngIf="message.kind == 3">投稿审核</span><span
+                        *ngIf="message.kind == 4">升管审核</span><span *ngIf="message.kind == 5">禁言</span></p>
+                    <p class="shop"><span>推送目标</span><span>{{message.targetUser}}</span></p>
+                    <p class="shop"><span>推送时间</span><span>{{message.createdTime | date: 'yyyy-MM-dd HH:mm'}}</span></p>
+                    <p class="shop"><span>是否已读</span><span *ngIf="message.isRead == 0">否</span><span *ngIf="message.isRead == 1">是</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

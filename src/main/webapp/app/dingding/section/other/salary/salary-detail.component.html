@@ -1,0 +1,77 @@
+<nb-card>
+    <nb-card-header>
+        <span>记录详情</span>
+        <button class='myBtn-primary' style="float: right;" routerLink="/dingding/section/salary">返回工资条</button>
+    </nb-card-header>
+    <nb-card-body>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <div class="search_box">
+                        <div>
+                            <label >姓名:</label>
+                            <input type="text" class="inputBorder" placeholder="请输入名字" [(ngModel)]="searchContent">
+                            <label style="margin-left: 32px;">导入状态:</label>
+                            <select class="inputBorder" [(ngModel)]="statusValue">
+                                <option value="0">全部</option>
+                                <option value="1">失败</option>
+                                <option value="2">成功</option>
+                            </select>
+                            <label style="margin-left: 32px;">通知状态:</label>
+                            <select class="inputBorder" [(ngModel)]="sendMessageStatusValue">
+                                <option value="0">全部</option>
+                                <option value="1">失败</option>
+                                <option value="2">成功</option>
+                            </select>
+                            <button class="search_btn" (click)="search()">查询</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table cellspacing="0">
+                <tr>
+                    <th>部门</th>
+                    <th>姓名</th>
+                    <th>开户银行</th>
+                    <th>银行卡号</th>
+                    <th>状态</th>
+                    <th>工资月份</th>
+                </tr>
+                <tr *ngFor="let salary of salaryInfo;let i=index">
+                    <td>{{salary.department}}</td>
+                    <td>{{salary.name}}</td>
+                    <td>{{salary.bankName}}</td>
+                    <td>{{salary.bankCode}}</td>
+                    <td>
+                         <span [ngSwitch]="salary.status">
+                           <span *ngSwitchCase="1">导入失败</span>
+                           <span *ngSwitchCase="2">导入成功</span>
+                           <span *ngSwitchDefault>未知参数</span>
+                        </span>
+                        <span [ngSwitch]="salary.sendMessageStatus" >
+                           <span *ngSwitchCase="1">(通知失败)</span>
+                           <span *ngSwitchCase="2">(已通知)</span>
+                           <span *ngSwitchDefault>(未知参数)</span>
+                        </span>
+                    </td>
+                    <td>{{salary.month}}</td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="salaryInfo">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="2000" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <label class="totalElements">共{{totalElements}}条记录</label>
+                <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                    <option value='10'>10条/页</option>
+                    <option value='15'>15条/页</option>
+                    <option value='20'>20条/页</option>
+                    <option value='30'>30条/页</option>
+                    <option value='50'>50条/页</option>
+                </select>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

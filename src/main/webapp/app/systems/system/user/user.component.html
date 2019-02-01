@@ -1,0 +1,97 @@
+<!--<nb-card>-->
+    <!--<nb-card-header>-->
+        <!--用户管理-->
+    <!--</nb-card-header>-->
+    <!--<nb-card-body>-->
+        <!--<ng2-smart-table id="table" [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"-->
+                         <!--(editConfirm)="onSaveConfirm($event)" (createConfirm)="onCreateConfirm($event)">-->
+        <!--</ng2-smart-table>-->
+    <!--</nb-card-body>-->
+<!--</nb-card>-->
+<!--<div class="export-data">-->
+    <!--<button class="btn-primary exportBtn" (click)="export()">导出csv数据</button>-->
+<!--</div>-->
+<nb-card>
+    <nb-card-header>
+        用户管理
+    </nb-card-header>
+    <nb-card-body>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <select name="searchType" [(ngModel)]="searchType" class="search_select"  style="margin-left: 0;margin-right: 20px;">
+                        <!--<option value="1">部门id</option>-->
+                        <option value="1">昵称</option>
+                        <option value="2">手机号</option>
+                    </select>
+                    <input type="text" class="search_input" placeholder="请输入关键字查询，选择查询内容" [(ngModel)]="searchItem">
+                    <button class="search_btn" (click)="reset()">重置</button>
+                    <button class="search_btn" (click)="search()">查询</button>
+                    <!--<button class="search_btn" *ngIf="checked.length>0" (click)="batch()">批量编辑</button>-->
+                </div>
+                <div class="export-data">
+                    <button class="btn-primary" id="exportBtn" (click)="add()">添加新用户</button>
+                </div>
+            </div>
+            <table cellspacing="0" class="modified">
+                <tr>
+                    <th>帐号</th>
+                    <th>昵称</th>
+                    <th>性别</th>
+                    <th>手机</th>
+                    <th>邮箱</th>
+                    <th>地址</th>
+                    <th>生日</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <ng-container *ngIf="users.length>0">
+                    <tr *ngFor="let user of users;">
+                        <td>{{user.login}}</td>
+                        <td>{{user.nickname}}</td>
+                        <td>
+                            <span *ngIf="user.sex == 0 || user.sex == null">未知</span>
+                            <span *ngIf="user.sex == 1">男</span>
+                            <span *ngIf="user.sex == 2">女</span>
+                        </td>
+                        <td>{{user.mobilePhone}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.address}}</td>
+                        <td>{{user.birthday}}</td>
+                        <td>
+                            <span *ngIf="user.activated == true">已激活</span>
+                            <span *ngIf="user.activated == false">已删除</span>
+                        </td>
+                        <td>
+                            <button title="编辑"><i class="ion-edit" (click)="edit(user.login)"></i></button>
+                            <!--<button title="查看"><i class="ion-ios-eye-outline" (click)="checkUser(user.id)"></i></button>-->
+                            <button title="删除"><i class="ion-trash-a" (click)="delete(user.login)"></i></button>
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="users.length==0">
+                    <tr>
+                        <td colspan="9">查无结果</td>
+                    </tr>
+                </ng-container>
+            </table>
+        </div>
+        <div *ngIf="users">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+                <!--<ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"-->
+                                <!--[boundaryLinks]="true" (pageChange)="loadPage(page)">-->
+                <!--</ngb-pagination>-->
+                <!--<label class="totalElements">共{{totalElements}}条记录</label>-->
+                <!--<select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">-->
+                    <!--<option value='10'>10条/页</option>-->
+                    <!--<option value='15'>15条/页</option>-->
+                    <!--<option value='20'>20条/页</option>-->
+                    <!--<option value='30'>30条/页</option>-->
+                    <!--<option value='50'>50条/页</option>-->
+                <!--</select>-->
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

@@ -1,0 +1,70 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">创建或编辑商品SKU</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" *ngIf="shops">
+            <label>选择店铺</label>
+            <select class="form-control" name="shopId " [(ngModel)]="selectedShopId" (change)="selectedShop()">
+                <option value="0">请选择</option>
+                <option *ngFor="let shop of shops" value="{{shop.id}}">{{shop.shopName}}</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="brands">
+            <label>选择品牌</label>
+            <select class="form-control" name="brandId " [(ngModel)]="selectedBrandId" (change)="selectedBrand()">
+                <option value="0">请选择</option>
+                <option *ngFor="let brand of brands" value="{{brand.id}}">{{brand.brandName}}</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="goods">
+            <label>选择商品</label>
+            <select class="form-control" name="goodId " [(ngModel)]="selectedSKUGoodId" (change)="selectedGood()">
+                <option value="0">请选择</option>
+                <option *ngFor="let good of goods" value="{{good.id}}">{{good.goodName}}</option>
+            </select>
+        </div>
+        <div class="form-group"*ngIf="goodSku">
+            <label>SKU名称</label>
+            <input type="text" class="form-control" name="skuName" #skuNameInput="ngModel"
+                   [(ngModel)]="goodSku.skuName">
+        </div>
+        <div class="form-group"*ngIf="goodSku">
+            <label>SKU数量</label>
+            <input type="text" class="form-control" name="skuNum" #skuNumInput="ngModel"
+                   [(ngModel)]="goodSku.skuNum">
+        </div>
+        <div class="form-group"*ngIf="goodSku">
+            <label>日常价格</label>
+            <input type="text" class="form-control" name="dailyPrice" #dailyPriceInput="ngModel"
+                   [(ngModel)]="goodSku.dailyPrice">
+        </div>
+        <div class="form-group"*ngIf="goodSku">
+            <label>日常特价</label>
+            <input type="text" class="form-control" name="dailySpecialPrice" #dailySpecialPriceInput="ngModel"
+                   [(ngModel)]="goodSku.dailySpecialPrice">
+        </div>
+        <div class="form-group" *ngIf="goodSku">
+            <label>活动价格</label>
+            <input type="text" class="form-control" name="activityPrice" #activityPriceInput="ngModel"
+                   [(ngModel)]="goodSku.activityPrice">
+        </div>
+        <div class="form-group" *ngIf="goodSku">
+            <label>活动特价</label>
+            <input type="text" class="form-control" name="acticitySpecialPrice" #acticitySpecialPriceInput="ngModel"
+                   [(ngModel)]="goodSku.acticitySpecialPrice">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-floppy-o"></span>&nbsp;<span>保存</span>
+        </button>
+    </div>
+</form>

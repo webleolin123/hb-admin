@@ -1,0 +1,85 @@
+<nb-card>
+    <nb-card-header>
+        负面评价采集
+    </nb-card-header>
+    <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <select name="searchType" [(ngModel)]="searchType" class="search_select"
+                            style="margin-left: 0;margin-right: 20px;">
+                        <option value="1">淘宝ID</option>
+                        <option value="2">商品ID</option>
+                        <option value="3">订单号</option>
+                        <option value="4">标签</option>
+                        <option value="5">评论内容</option>
+                        <option value="6">商店名称</option>
+                    </select>
+                    <input type="text" class="search_input" placeholder="请输入关键字查询，选择查询内容" [(ngModel)]="searchItem">
+                    <button class="search_btn" (click)="search()">查询</button>
+                    <button class="search_btn" (click)="loadAll()">所有评价</button>
+                    <button class="search_btn" *ngIf="checked.length>0" (click)="batch()">批量编辑</button>
+                    <button class="search_btn" *ngIf="checked.length>0" (click)="deleteSelected()">批量删除</button>
+                </div>
+                <a href="javascript:;" class="file" (click)="uploadFile()">选择文件上传</a>
+                <div class="export-data">
+                    <button class="btn-primary" id="exportBtn" (click)="export()">导出csv数据</button>
+                </div>
+            </div>
+            <table cellspacing="0" class="modified">
+                <tr>
+                    <th><input type="checkbox" style="float: left;" name="selectAll" [(ngModel)]="selectAll"
+                               [checked]="selectAll"
+                               (change)="selectM()">淘宝ID
+                    </th>
+                    <th>商品ID</th>
+                    <th>订单号</th>
+                    <th>店铺</th>
+                    <th>商品</th>
+                    <th>评价</th>
+                    <th>负面标签</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let appraise of appraises;">
+                    <td>
+                        <input type="checkbox" style="float: left;" name="appraiseId" [(ngModel)]="appraise.checked"
+                               (change)="selectN()">
+                        {{appraise.customerId}}
+                    </td>
+                    <td>{{appraise.goodsId}}</td>
+                    <td>{{appraise.orderCode}}</td>
+                    <td>{{appraise.store}}</td>
+                    <td class="goodName text-left"><span>{{appraise.goodsName}}</span></td>
+                    <td class="appraise text-left"><span
+                        *ngFor="let content of appraise.appraiseContents">{{content.appraise}}</span>
+                    </td>
+                    <td class="text-left"><a href="javascript:;" *ngFor="let item of appraise.appraiseContents"><span
+                        class="label"
+                        *ngFor="let appraiseLabel of item.appraiseLabels">{{appraiseLabel.label}}</span></a>
+                    </td>
+                    <td>
+                        <button title="编辑"><i class="ion-edit" (click)="edit(appraise.id)"></i></button>
+                        <button title="查看"><i class="ion-ios-eye-outline" (click)="checkGood(appraise.id)"></i></button>
+                        <!--<button title="删除"><i class="ion-trash-a" (click)="delete(appraise.id)"></i></button>-->
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="appraises">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <label class="totalElements">共{{totalElements}}条记录</label>
+                <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                    <option value='10'>10条/页</option>
+                    <option value='15'>15条/页</option>
+                    <option value='20'>20条/页</option>
+                    <option value='30'>30条/页</option>
+                    <option value='50'>50条/页</option>
+                </select>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

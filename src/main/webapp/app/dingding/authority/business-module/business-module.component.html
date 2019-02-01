@@ -1,0 +1,146 @@
+<nb-card>
+    <nb-card-header>
+        业务模块
+    </nb-card-header>
+    <nb-card-body>
+        <!--<toaster-container [toasterconfig]="config"></toaster-container>-->
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <select name="moduleLevel" [(ngModel)]="moduleLevel" class="search_select"
+                            style="margin-left: 0;margin-right: 20px;">
+                        <option value="0">父模块</option>
+                        <option value="1">一级模块</option>
+                        <option value="2">二级模块</option>
+                    </select>
+                    <input type="text" class="search_input" placeholder="请输入关键字查询，选择查询内容" [(ngModel)]="searchItem">
+                    <button class="search_btn" (click)="search()">查询</button>
+                </div>
+                <div class="export-data">
+                    <button class="btn-primary" id="exportBtn" (click)="add()">创建新模块</button>
+                </div>
+            </div>
+            <!--父模块-->
+            <table cellspacing="0" class="modified module" *ngIf="moduleLevel == 0">
+                <tr>
+                    <th style="width: 200px">父模块</th>
+                    <th style="width: 250px">一级模块</th>
+                    <th>二级模块</th>
+                </tr>
+                <tr *ngFor="let module of businessModules">
+                    <td class="parent" *ngIf="moduleLevel == 0">
+                        <span (click)="check(module.id)">{{module.businessName}}</span>
+                        <button style="float: right;"><i title="删除父模块" class="ion-trash-a"
+                                                         (click)="deleteParentModule(module.id)"></i></button>
+                        <button style="float: right;"><i title="添加子模块" class="ion-plus-round"
+                                                         (click)="addFirstModules(module.id)"></i></button>
+                    </td>
+                    <td class="child" *ngIf="moduleLevel == 0 || moduleLevel == 1">
+                        <table class="inner">
+                            <tr *ngFor="let childModule of module.childModules" class="first">
+                                <td>
+                                    <a href="javascript:;">
+                                        <!--<input type="checkbox" name="childModuleId" [(ngModel)]="childModule.isSelected" (change)="selectChild(module,childModule)">-->
+                                        <label (click)="check(childModule.id)">{{childModule.businessName}}</label>
+                                    </a>
+                                    <button><i title="删除所选子模块" class="ion-trash-a"
+                                               (click)="deleteFirstModules(module.id,childModule.id)"></i></button>
+                                    <button><i title="添加子模块" class="ion-plus-round"
+                                               (click)="addSecondModules(childModule.id)"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="third">
+                        <table class="inner">
+                            <tr *ngFor="let childModule of module.childModules" class="first">
+                                <td>
+                                    <a href="javascript:;" *ngFor="let m of childModule.childModules">
+                                        <input type="checkbox" name="childModuleId" [(ngModel)]="m.isSelected"
+                                               (change)="selectChild(childModule,m)">
+                                        <label (click)="check(m.id)">{{m.businessName}}</label>
+                                    </a>
+                                    <button><i title="删除所选子模块" class="ion-trash-a"
+                                               (click)="deleteSecondModules(childModule)"></i></button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+
+            <!--一级模块-->
+            <table cellspacing="0" class="modified module" *ngIf="moduleLevel == 1">
+                <tr>
+                    <th style="width: 250px">一级模块</th>
+                    <th>二级模块</th>
+                </tr>
+                <tr *ngFor="let firstModule of firstModules">
+                    <td class="parent">
+                        <label (click)="check(firstModule.id)">{{firstModule.businessName}}</label>
+                        <button style="float: right;"><i title="删除" class="ion-trash-a" (click)="deleteFirstModule(firstModule.id)"></i></button>
+                    </td>
+                    <td class="child">
+                        <a href="javascript:;" *ngFor="let m of firstModule.childModules">
+                            <input type="checkbox" name="childModuleId" [(ngModel)]="m.isSelected"
+                                   (change)="selectChild(firstModule,m)">
+                            <label (click)="check(m.id)">{{m.businessName}}</label>
+                        </a>
+                        <button><i title="删除所选子模块" class="ion-trash-a" (click)="deleteSecondModules(firstModule)"></i></button>
+                    </td>
+                </tr>
+            </table>
+
+            <!--二级模块-->
+            <table cellspacing="0" class="modified" *ngIf="moduleLevel == 2">
+                <tr>
+                    <th>id</th>
+                    <th>业务名称</th>
+                    <th>业务id</th>
+                    <th>业务链接</th>
+                    <th>业务层级</th>
+                    <th>前端显示</th>
+                    <th>管理权限</th>
+                    <th>特殊权限类型</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let secondModule of secondModules;">
+                    <td>{{secondModule.id}}</td>
+                    <td>{{secondModule.businessName}}</td>
+                    <td>{{secondModule.businessType}}</td>
+                    <td>{{secondModule.linkUrl}}</td>
+                    <td>
+                        <span *ngIf="secondModule.level == 0">父模块</span>
+                        <span *ngIf="secondModule.level == 1">一级模块</span>
+                        <span *ngIf="secondModule.level == 2">二级模块</span>
+                    </td>
+                    <td>
+                        <span *ngIf="secondModule.isShowedInClient == 0">否</span>
+                        <span *ngIf="secondModule.isShowedInClient == 1">是</span>
+                    </td>
+                    <td>
+                        <span *ngIf="secondModule.isManegeLimit == 0">否</span>
+                        <span *ngIf="secondModule.isManegeLimit == 1">是</span>
+                    </td>
+                    <td>
+                        <span *ngIf="secondModule.approvePermissionType == 1">普通</span>
+                        <span *ngIf="secondModule.approvePermissionType == 2">店铺</span>
+                        <span *ngIf="secondModule.approvePermissionType == 3">上下架</span>
+                        <span *ngIf="secondModule.approvePermissionType == 4">作图</span>
+                    </td>
+                    <td>
+                        <span *ngIf="secondModule.status == 0">删除/不显示</span>
+                        <span *ngIf="secondModule.status == 1">正常</span>
+                        <span *ngIf="secondModule.status == 2">未开发完成</span>
+                    </td>
+                    <td>
+                        <button><i class="ion-edit" title="编辑" (click)="edit(secondModule.id)"></i></button>
+                        <button><i class="ion-trash-a" title="删除" (click)="delete(secondModule.id)"></i></button>
+                        <button><i class="ion-clipboard" title="查看" (click)="check(secondModule.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </nb-card-body>
+</nb-card>

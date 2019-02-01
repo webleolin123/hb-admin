@@ -1,0 +1,62 @@
+<nb-card>
+    <nb-card-header>
+        百度推送
+    </nb-card-header>
+    <nb-card-body>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <input type="text" class="search_input" placeholder="请输入关键字查询" [(ngModel)]="searchItem">
+                    <button class="search_btn" (click)="search()">查询</button>
+                </div>
+                <button class="btn {{ settingsBtn[0].class }} btn-demo" (click)="add()">{{
+                    settingsBtn[0].buttonTitle}}
+                </button>
+            </div>
+            <table cellspacing="0">
+                <tr>
+                    <th>id</th>
+                    <th>消息ID</th>
+                    <th>设备类型</th>
+                    <th>标题</th>
+                    <th>内容</th>
+                    <th>推送对象</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let baidu of baidus;">
+                    <td>{{baidu.id}}</td>
+                    <td>{{baidu.msgId}}</td>
+                    <td>
+                        <span *ngIf="baidu.deviceType==3">Android</span>
+                        <span *ngIf="baidu.deviceType==4">iOS</span>
+                    </td>
+                    <td><span class="content_short">{{baidu.title}}</span></td>
+                    <td><span class="content_short">{{baidu.content}}</span></td>
+                    <td>{{baidu.byUser}}</td>
+                    <td>
+                        <button title="查看"><i class="ion-ios-eye-outline" (click)="check(baidu.id)"></i></button>
+                        <button title="删除"><i class="ion-trash-a" (click)="delete(baidu.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="baidus">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="1000000" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <!--<ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"-->
+                                <!--[boundaryLinks]="true" (pageChange)="loadPage(page)">-->
+                <!--</ngb-pagination>-->
+                <!--<label class="totalElements">共{{totalElements}}条记录</label>-->
+                <!--<select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">-->
+                    <!--<option value='10'>10条/页</option>-->
+                    <!--<option value='15'>15条/页</option>-->
+                    <!--<option value='20'>20条/页</option>-->
+                    <!--<option value='30'>30条/页</option>-->
+                    <!--<option value='50'>50条/页</option>-->
+                <!--</select>-->
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

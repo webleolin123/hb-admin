@@ -1,0 +1,39 @@
+@import '../../@theme/styles/themes';
+
+@include nb-install-component() {
+  ngx-echarts-pie,
+  ngx-echarts-bar,
+  ngx-echarts-line,
+  ngx-echarts-multiple-xaxis,
+  ngx-echarts-area-stack,
+  ngx-echarts-bar-animation,
+  ngx-echarts-radar {
+    display: block;
+    height: nb-theme(card-height-medium);
+    width: 100%;
+  }
+
+  /deep/ .echart {
+    height: 100%;
+    width: 100%;
+  }
+}
+myBtn-dark{
+    width: 50px;
+    height: 30px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+}
+homeInputSelect{
+    width:160px;
+    font-size:14px;
+    height:36px;
+    background:#fff;
+    float: right;
+    padding: 0 10px;
+    outline: none;
+    color: #2a2a2a;
+    font-family: Microsoft YaHei;
+    border-radius: 4px;
+    border: 1px solid #40dc7e!important;
+}

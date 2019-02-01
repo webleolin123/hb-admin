@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">商品详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" id="zhiTongChe_detail" *ngIf="good">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <div class="card-content">
+                    <p><span>&#x3000;商品id</span><span>{{good.goodId}}</span></p>
+                    <p><span>商品名称</span><span>{{good.goodName}}</span></p>
+                    <p><span>所属店铺</span><span>{{good.shopName}}</span></p>
+                    <p><span>所属品牌</span><span>{{good.brandName}}</span></p>
+                    <p><span>商品前缀</span><span>{{good.preLink}}</span></p>
+                    <p><span>商品价格</span><span *ngIf="good.price">{{good.price}}元</span></p>
+                    <div class="supportedByFactory" *ngFor="let sku of good.skus">
+                        <p class="perPriceOfSupport"><span>{{sku.skuName}}</span></p>
+                        <p class="perPriceOfSupport"><span>数量</span><span>{{sku.skuNum}}</span></p>
+                        <p class="perPriceOfSupport"><span>日常价格</span><span>{{sku.dailyPrice}}</span></p>
+                        <p class="perPriceOfSupport"><span>日常特价</span><span>{{sku.dailySpecialPrice}}</span></p>
+                        <p class="perPriceOfSupport"><span>活动价格</span><span>{{sku.activityPrice}}</span></p>
+                        <p class="perPriceOfSupport"><span>活动特价</span><span>{{sku.acticitySpecialPrice}}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

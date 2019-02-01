@@ -1,0 +1,157 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">创建或编辑业务模块</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group">
+            <label>业务名称</label>
+            <input type="text" class="form-control" name="businessName" #businessNameInput="ngModel"
+                   [(ngModel)]="businessModule.businessName">
+        </div>
+        <div class="form-group">
+            <label>业务ID</label>
+            <input type="text" class="form-control" name="businessType " #businessTypeInput="ngModel"
+                   [(ngModel)]="businessModule.businessType">
+        </div>
+        <div class="form-group">
+            <label>业务层级</label>
+            <select class="form-control" name="level " [(ngModel)]="businessModule.level">
+                <option value="0">父模块</option>
+                <option value="1">一级模块</option>
+                <option value="2">二级模块</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="businessModule.level == 1">
+            <label>选择关联模块</label>
+            <!--<select class="form-control" multiple name="modules" [(ngModel)]="parentModulesIds" [required]="businessModule.level == 1">-->
+            <!--<option *ngFor="let module of firstModules" value="{{module.id}}">{{module.businessName}}</option>-->
+            <!--</select>-->
+
+            <br>
+            <div style="width: 100%;padding: 20px;border: 1px solid #ededed;">
+                <a href="javascript:;" *ngFor="let firstModule of firstModules"
+                   style="display: inline-block;min-width: 120px;">
+                    <input type="checkbox" name="firstModule" [(ngModel)]="firstModule.isSelected"
+                           style="margin-right: 2px;"><label>{{firstModule.businessName}}</label>
+                </a>
+            </div>
+        </div>
+        <div class="form-group" *ngIf="businessModule.level == 2">
+            <label>选择关联模块</label>
+            <!--<select class="form-control" multiple name="modules" [(ngModel)]="parentModulesIds" [required]="businessModule.level == 2">-->
+            <!--<option *ngFor="let module of secondModules" value="{{module.id}}">{{module.businessName}}</option>-->
+            <!--</select>-->
+            <br>
+            <div style="width: 100%;padding: 20px;border: 1px solid #ededed;">
+                <a href="javascript:;" *ngFor="let secondModule of secondModules"
+                   style="display: inline-block;min-width: 120px;">
+                    <input type="checkbox" name="secondModule" [(ngModel)]="secondModule.isSelected"
+                           style="margin-right: 2px;">
+                    <label>{{secondModule.businessName}}</label>
+                </a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>状态</label>
+            <select class="form-control" name="status " [(ngModel)]="businessModule.status">
+                <option value="0">删除/不显示</option>
+                <option value="1">正常</option>
+                <option value="2">未开发完成</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="businessModule.status == 1">
+            <label class="form-control-label">appLOGO</label>
+            <img src="{{imageUrl}}" style="width: 100px;height: 100px;border: none;" alt=""
+                 *ngIf="imageMd5 != null"><br>
+            <input type="file" ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged1()"/>
+        </div>
+        <div class="form-group" *ngIf="businessModule.status == 2">
+            <label class="form-control-label">app灰色LOGO</label>
+            <img src="{{greyLogoImageUrl}}" style="width: 100px;height: 100px;border: none;" alt=""
+                 *ngIf="greyLogoImageMd5 != null"><br>
+            <input type="file" ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged2()"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label">后台LOGO</label>
+            <img src="{{serverLogoImageUrl}}" style="width: 100px;height: 100px;border: none;" alt=""
+                 *ngIf="serverLogoImageMd5 != null"><br>
+            <input type="file" ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged3()"/>
+        </div>
+        <div class="form-group">
+            <label>业务链接</label>
+            <input type="text" class="form-control" name="linkUrl" #linkUrlInput="ngModel"
+                   [(ngModel)]="businessModule.linkUrl">
+        </div>
+        <div class="form-group">
+            <label>是否在前端展示</label>
+            <select class="form-control" name="isShowedInClient " [(ngModel)]="businessModule.isShowedInClient">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>管理权限</label>
+            <select class="form-control" name="isManegeLimit " [(ngModel)]="businessModule.isManegeLimit">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>特殊权限类型</label>
+            <select class="form-control" name="approvePermissionType"
+                    [(ngModel)]="businessModule.approvePermissionType">
+                <option value="1">普通</option>
+                <option value="2">店铺属性</option>
+                <option value="3">上下架专属</option>
+                <option value="4">作图</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>排序</label>
+            <input type="text" class="form-control" name="seq" #seqInput="ngModel"
+                   [(ngModel)]="businessModule.seq">
+        </div>
+        <div class="form-group">
+            <label>审批层级数</label>
+            <input type="number" class="form-control" name="seqLevel" #seqLevelInput="ngModel"
+                   [(ngModel)]="businessModule.seqLevel">
+        </div>
+        <div class="form-group">
+            <label>是否可自行添加第一审批者</label>
+            <select class="form-control" name="autoAddApproverAtFirstSeq "
+                    [(ngModel)]="businessModule.autoAddApproverAtFirstSeq">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>是否可自行添加第二审批者</label>
+            <select class="form-control" name="autoAddApproverAtSecondSeq "
+                    [(ngModel)]="businessModule.autoAddApproverAtSecondSeq">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>是否可自行添加抄送者</label>
+            <select class="form-control" name="autoAddCopy " [(ngModel)]="businessModule.autoAddCopy">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-floppy-o"></span>&nbsp;<span>保存</span>
+        </button>
+    </div>
+</form>

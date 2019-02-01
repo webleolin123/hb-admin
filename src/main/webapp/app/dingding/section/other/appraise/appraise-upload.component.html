@@ -1,0 +1,66 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">选择店铺上传评价数据</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" *ngIf="shops">
+            <label>选择店铺</label>
+            <select class="form-control" name="storeName " [(ngModel)]="storeName">
+                <option value="爱宝乐母婴旗舰店" *jhiHasAnyAuthority="['ROLE_APPRAISE_IBAOLE','ROLE_ADMIN']">爱宝乐母婴旗舰店</option>
+                <option value="博贝母婴专营店" *jhiHasAnyAuthority="['ROLE_APPRAISE_BERBUY','ROLE_ADMIN']">博贝母婴专营店</option>
+                <option value="达奇母婴专营店" *jhiHasAnyAuthority="['ROLE_APPRAISE_DAQI','ROLE_ADMIN']">达奇母婴专营店</option>
+                <option value="优宝母婴专营店" *jhiHasAnyAuthority="['ROLE_APPRAISE_YOUBAO','ROLE_ADMIN']">优宝母婴专营店</option>
+                <option value="小哈伦旗舰店" *jhiHasAnyAuthority="['ROLE_APPRAISE_XIAOHALUN','ROLE_ADMIN']">小哈伦旗舰店</option>
+                <option value="好孩子博贝专卖店" *jhiHasAnyAuthority="['ROLE_APPRAISE_HAOHAIZI','ROLE_ADMIN']">好孩子博贝专卖店</option>
+                <option value="小白熊诺贝专卖店" *jhiHasAnyAuthority="['ROLE_APPRAISE_XIAOBAIXION','ROLE_ADMIN']">小白熊诺贝专卖店</option>
+                <!--<option value="">请选择</option>-->
+                <!--<option *ngFor="let shop of shops" value="{{shop.shopName}}">{{shop.shopName}}</option>-->
+            </select>
+        </div>
+        <a href="javascript:;" class="file">选择文件上传
+            <input multiple type="file" name="" ng2FileSelect [uploader]="uploader"
+                   (change)="selectedFileOnChanged();">
+        </a>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>取消</span>
+        </button>
+    </div>
+</form>
+<style>
+    .file {
+        /*position: absolute;*/
+        /*right: 160px;*/
+        /*top: 20px;*/
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 6px;
+        padding: 7px 14px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+
+    .file input {
+        position: absolute;
+        font-size: 40px;
+        right: 0;
+        top: 120px;
+        opacity: 0;
+    }
+
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+</style>

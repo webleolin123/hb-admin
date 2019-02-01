@@ -1,0 +1,81 @@
+{
+    "rulesDirectory": [
+        "node_modules/codelyzer"
+    ],
+    "rules": {
+        "class-name": true,
+        "eofline": true,
+        "forin": true,
+        "indent": [
+            true,
+            "spaces"
+        ],
+        "label-position": true,
+        "max-line-length": [
+            true,
+            180
+        ],
+        "member-access": false,
+        "no-arg": true,
+        "no-console": [
+            true,
+            "debug",
+            "info",
+            "time",
+            "timeEnd",
+            "trace"
+        ],
+        "no-construct": true,
+        "no-debugger": true,
+        "no-duplicate-variable": true,
+        "no-empty": false,
+        "no-eval": true,
+        "no-inferrable-types": [true],
+        "no-shadowed-variable": true,
+        "no-string-literal": false,
+        "no-switch-case-fall-through": true,
+        "no-trailing-whitespace": false,
+        "no-unused-expression": true,
+        "no-use-before-declare": true,
+        "no-var-keyword": true,
+        "object-literal-sort-keys": false,
+        "quotemark": [
+            false
+        ],
+        "radix": true,
+        "semicolon": [
+            "always"
+        ],
+        "triple-equals": [
+            false
+        ],
+        "typedef-whitespace": [
+            true,
+            {
+                "call-signature": "nospace",
+                "index-signature": "nospace",
+                "parameter": "nospace",
+                "property-declaration": "nospace",
+                "variable-declaration": "nospace"
+            }
+        ],
+        "variable-name": false,
+        "prefer-const": true,
+        "arrow-return-shorthand": [true],
+        "import-spacing": true,
+        "no-consecutive-blank-lines": [true],
+        "object-literal-shorthand": false,
+        "use-input-property-decorator": true,
+        "use-output-property-decorator": true,
+        "use-host-property-decorator": true,
+        "no-input-rename": true,
+        "no-output-rename": true,
+        "use-life-cycle-interface": true,
+        "use-pipe-transform-interface": false,
+        "component-class-suffix": true,
+        "directive-class-suffix": true,
+        "no-access-missing-member": true,
+        "templates-use-public": true,
+        "invoke-injectable": true
+    }
+}

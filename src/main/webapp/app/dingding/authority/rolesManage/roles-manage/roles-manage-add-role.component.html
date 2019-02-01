@@ -1,0 +1,62 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myTitle">
+            {{title}}
+        </h4>
+        <button type="button" class="close hand" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body" *ngIf="personnel_dingId">
+        <!--<jhi-alert-error></jhi-alert-error>-->
+        <div class="form-group" *ngIf="roles">
+            <label class="form-control-label">角色名称</label>
+            <select class="form-control" [(ngModel)]="person_roleId" (change)="selectedDepartment()" [ngModelOptions]="{standalone: true}">
+                <option value="0">请选择</option>
+                <option *ngFor="let role of roles" value="{{role.id}}">{{role.roleName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-body" *ngIf="!personnel_dingId&&!roleId">
+        <!--<jhi-alert-error></jhi-alert-error>-->
+        <div class="form-group">
+            <label class="form-control-label">角色名称</label>
+            <input type="text" class="form-control" name="roleName"  [(ngModel)]="roleName">
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" >角色类型</label>
+            <input type="text" class="form-control" name="roleType" [(ngModel)]="roleType">
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" >角色等级</label>
+            <input type="text" class="form-control" name="roleLevel" [(ngModel)]="roleLevel">
+        </div>
+    </div>
+    <div class="modal-body" *ngIf="!personnel_dingId&&roleId">
+        <!--<jhi-alert-error></jhi-alert-error>-->
+        <div class="form-group">
+            <label>选择部门</label>
+            <select class="form-control" [(ngModel)]="departmentId" (change)="selectedDepartment()" [ngModelOptions]="{standalone: true}">
+                <option value="0">请选择</option>
+                <option *ngFor="let department of departments" value="{{department.id}}">{{department.name}}</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="departmentId">
+            <label>选择人员</label>
+            <select class="form-control"[(ngModel)]="dingId" [ngModelOptions]="{standalone: true}">
+                <option value="0">请选择</option>
+                <option *ngFor="let departmentUser of departmentUsers" value="{{departmentUser.userid}}">
+                    {{departmentUser.name}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary hand" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary hand">
+            <span class="fa fa-floppy-o"></span>&nbsp;<span>确定</span>
+        </button>
+    </div>
+</form>

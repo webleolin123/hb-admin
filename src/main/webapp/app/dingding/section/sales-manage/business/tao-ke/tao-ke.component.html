@@ -1,0 +1,102 @@
+<nb-card>
+    <nb-card-header>
+        淘宝客
+    </nb-card-header>
+
+    <nb-card-body>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <label>店铺:</label>
+                    <input type="text" class="search_input_duan" placeholder="店铺搜索" [(ngModel)]="searchItem_shopName">
+                    <label>店铺品牌:</label>
+                    <input type="text" class="search_input_duan" placeholder="品牌搜索" [(ngModel)]="searchItem_brandName">
+                    <label>商品:</label>
+                    <input type="text" class="search_input_duan" placeholder="商品搜索" [(ngModel)]="searchItem_goodName">
+                    <label>申请人:</label>
+                    <input type="text" class="search_input_duan" placeholder="申请人搜索" [(ngModel)]="searchItem_applicant">
+                </div> </div>
+            <div class="row">
+                <div class="search_box">
+                    <label>费用类型:</label>
+                    <select class=" search_select " style="width: 125px;background: #fff;margin-right: 40px!important;" [(ngModel)]="searchItem_priceType">
+                        <option value='0'>全部</option>
+                        <option value='1'>日费用</option>
+                        <option value='2'>月费用</option>
+                        <option value='3'>总费用</option>
+                        <option value='4'>佣金</option>
+                    </select>
+                    <label  style='width:80px'>起止时间:</label>
+                    <input type="date" class="search_select" style="margin-right:45px;" [(ngModel)]="searchItem_startTime">
+                    <label  style="margin:0 10px">至:</label>
+                    <input type="date" class="search_select" [(ngModel)]="searchItem_endTime" style="margin-right: 40px;!important;">
+                    <button class="search_btn" (click)="search()">查询</button>
+                    <button class="search_btn" (click)="reset()">重置</button>
+                    <div class="export-data"  style="position: absolute;right: 20px;top:70px;">
+                        <button class="btn btn-hero-primary "  (click)="viewData()">查看数据</button>
+                        <button class="btn btn-hero-primary "  (click)="export()">导出csv数据</button>
+                        <button class="btn btn-hero-primary" (click)="add()">添加新数据</button>
+                    </div>
+                </div>
+            </div>
+            <table cellspacing="0" class="modified">
+                <tr>
+                    <th>id</th>
+                    <th>店铺</th>
+                    <th>品牌</th>
+                    <th>商品</th>
+                    <th>费用类型</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>总费用</th>
+                    <th>申请人</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let taoKe of taoKes;">
+                    <td>{{taoKe.id}}</td>
+                    <td>{{taoKe.shopName}}</td>
+                    <td>{{taoKe.brandName}}</td>
+                    <td class="goodName text-left">
+                        <span>{{taoKe.goodName}}</span>
+                    </td>
+                    <td>
+                        <span *ngIf="taoKe.priceType == 1">日费用</span>
+                        <span *ngIf="taoKe.priceType == 2">月费用</span>
+                        <span *ngIf="taoKe.priceType == 3">总费用</span>
+                        <span *ngIf="taoKe.priceType == 4">佣金</span>
+                    </td>
+                    <td>{{taoKe.startDate}}</td>
+                    <td>{{taoKe.endDate}}</td>
+                    <td>{{taoKe.totalPrice}}元</td>
+                    <td><span *ngIf="taoKe.approveInfoDTO">{{taoKe.approveInfoDTO.applicant}}</span></td>
+                    <td>
+                        <span *ngIf="taoKe.approveInfoDTO && taoKe.approveInfoDTO.status == 1">待审批</span>
+                        <span *ngIf="taoKe.approveInfoDTO && taoKe.approveInfoDTO.status == 2">已通过</span>
+                        <span *ngIf="taoKe.approveInfoDTO && taoKe.approveInfoDTO.status == 3">已拒绝</span>
+                        <span *ngIf="taoKe.approveInfoDTO && taoKe.approveInfoDTO.status == 12">已完结</span>
+                        <span *ngIf="taoKe.approveInfoDTO && (taoKe.approveInfoDTO.status == 6 || taoKe.approveInfoDTO.status == 9 || taoKe.approveInfoDTO.status == 11)">已撤销</span>
+                    </td>
+                    <td>
+                        <button><i class="ion-edit" (click)="edit(taoKe.id)"></i></button>
+                        <button><i class="ion-trash-a" (click)="delete(taoKe.id)"></i></button>
+                        <button><i class="ion-clipboard" (click)="check(taoKe.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="row justify-content-center" *ngIf="taoKes">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                            [boundaryLinks]="true" (pageChange)="loadPage(page)">
+            </ngb-pagination>
+            <label class="totalElements">共{{totalElements}}条记录</label>
+            <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                <option value='10'>10条/页</option>
+                <option value='15'>15条/页</option>
+                <option value='20'>20条/页</option>
+                <option value='30'>30条/页</option>
+                <option value='50'>50条/页</option>
+            </select>
+        </div>
+    </nb-card-body>
+</nb-card>

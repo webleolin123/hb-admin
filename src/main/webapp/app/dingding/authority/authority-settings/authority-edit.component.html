@@ -1,0 +1,61 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">编辑审批权限</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>ID</label>
+            <input type="text" class="form-control" name="id " [(ngModel)]="authority.id" readonly>
+        </div>
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group">
+            <label>模块ID</label>
+            <input type="text" class="form-control" name="businessModuleId" #businessModuleIdInput="ngModel"
+                   [(ngModel)]="authority.businessModuleId" readonly>
+        </div>
+        <div class="form-group" *ngIf="authority.approvePermissionValue!=21&&authority.permissionType!=7">
+            <label>品牌范围</label>
+            <select class="form-control" name="brandRange " [(ngModel)]="authority.brandRange">
+                <option value="1">全部品牌</option>
+                <option value="2">代理品牌</option>
+                <option value="3">自有品牌</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>权限</label>
+            <select class="form-control" name="permissionType " [(ngModel)]="authority.permissionType">
+                <option value="5">一级审批</option>
+                <option value="6">二级审批</option>
+                <option value="7">抄送</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>特殊权限类型</label>
+            <select class="form-control" name="approvePermissionValue" [(ngModel)]="authority.approvePermissionValue">
+                <option value="1">普通</option>
+                <!--<option value="2">店铺</option>-->
+                <option value="21">店铺</option>
+                <option value="22">非店铺</option>
+                <option value="31">上架</option>
+                <option value="32">临时下架</option>
+                <option value="33">永久下架</option>
+                <option value="41">日常作图</option>
+                <option value="42">加急作图</option>
+                <option value="43">外包装</option>
+                <option value="44">AI设计</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-floppy-o"></span>&nbsp;<span>保存</span>
+        </button>
+    </div>
+</form>

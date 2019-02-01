@@ -1,0 +1,86 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">编辑评价</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body" *ngIf="appraise">
+        <jhi-alert-error></jhi-alert-error>
+        <!--<div class="form-group">-->
+            <!--<label>发生时间</label>-->
+            <!--<input type="text" class="form-control" name="when" #whenInput="ngModel"-->
+                   <!--[(ngModel)]="appraise.when" readonly>-->
+        <!--</div>-->
+        <div class="form-group">
+            <label>淘宝ID</label>
+            <input type="text" class="form-control" name="customerId" #customerIdInput="ngModel"
+                   [(ngModel)]="appraise.customerId" readonly>
+        </div>
+        <div class="form-group">
+            <label>订单号</label>
+            <input type="text" class="form-control" name="orderCode" #orderCodeInput="ngModel"
+                   [(ngModel)]="appraise.orderCode" readonly>
+        </div>
+        <div class="form-group">
+            <label>商品ID</label>
+            <input type="text" class="form-control" name="goodsId" #goodsIdInput="ngModel"
+                   [(ngModel)]="appraise.goodsId" readonly>
+        </div>
+        <div class="form-group">
+            <label>商品名称</label>
+            <input type="text" class="form-control" name="goodsName" #goodsNameInput="ngModel"
+                   [(ngModel)]="appraise.goodsName" readonly>
+        </div>
+        <div class="form-group">
+            <label>商品sku</label>
+            <input type="text" class="form-control" name="sku" #skuInput="ngModel"
+                   [(ngModel)]="appraise.sku" readonly>
+        </div>
+        <!--<div class="form-group">-->
+            <!--<label>评价</label>-->
+            <!--<input type="text" class="form-control" name="appraise" #appraiseInput="ngModel"-->
+                   <!--[(ngModel)]="appraise.appraise" readonly>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label>负面标签</label>-->
+            <!--<input type="text" class="form-control" name="lables" #lablesInput="ngModel"-->
+                   <!--[(ngModel)]="appraise.lables" readonly>-->
+        <!--</div>-->
+        <div class="form-group">
+            <label>原因</label>
+            <input type="text" class="form-control" name="cause" #causeInput="ngModel"
+                   [(ngModel)]="appraise.cause">
+        </div>
+        <div class="form-group">
+            <label>原因分析</label>
+            <input type="text" class="form-control" name="analysisOfCauses" #analysisOfCausesInput="ngModel"
+                   [(ngModel)]="appraise.analysisOfCauses">
+        </div>
+        <div class="form-group">
+            <label>是否已联系客服</label>
+            <select class="form-control" [(ngModel)]="appraise.touch" name="touch">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>接待客服</label>
+            <input type="text" class="form-control" name="react" #reactInput="ngModel"
+                   [(ngModel)]="appraise.react">
+        </div>
+        <div class="form-group">
+            <label>处理方案</label>
+            <input type="text" class="form-control" name="proposalsForHandling" #proposalsForHandlingInput="ngModel"
+                   [(ngModel)]="appraise.proposalsForHandling">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-floppy-o"></span>&nbsp;<span>保存</span>
+        </button>
+    </div>
+</form>

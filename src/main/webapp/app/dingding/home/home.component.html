@@ -1,0 +1,374 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header>总数据概况</nb-card-header>
+            <nb-card-body>
+<!--//总数据概况 信息-->
+                <div class="row">
+                    <div class="col-lg-3" *ngFor="let totalApproval of testArr;">
+                        <div style="padding: 10px 20px;text-align: center;background: #fff;min-height: 202px;position:relative">
+                            <div style="width: 100%;height: 100%;position: relative;left: -20px;">
+                                <img src="{{totalApproval.icon_bg}}" alt="" style="min-height:202px;width: 364px;">
+                                <div style="position: absolute;top:25px;left:10px;color: #fff;">
+                                    <div class="icon" style="margin-bottom:25px;">
+                                        <img src="{{totalApproval.icon}}" style="width:40px;height:40px;">
+                                        <span style="display:inline-block;font-family: 'Microsoft YaHei';font-weight: bold;font-size: 16px;">
+                                            {{totalApproval.itemName}}
+                                        </span>
+                                    </div>
+                                    <!--<div style="margin-top: 10px;margin-bottom:20px;color:#2a2a2a;font-family: 'Microsoft YaHei';font-weight: bold;font-size: 16px;text-align: right">{{totalApproval.itemName}}</div>-->
+                                    <ng-container   *ngFor="let key of  objectKeys(totalApproval);">
+                                        <div *ngIf="totalApproval.itemName=='总费用概况'">
+                                            <div style="margin-bottom: 10px;font-size: 14px;font-family: 'Microsoft YaHei'" *ngIf="key!='itemName'&& key!='icon'&&key!='icon_bg'">
+                                                <span style="text-align: right;width: 120px;display: inline-block">{{key+' : '}}</span>
+                                                <span>{{'¥'+totalApproval[key]}}</span>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="totalApproval.itemName!='总费用概况'">
+                                            <div style="margin-bottom: 10px;font-size: 14px;font-family: 'Microsoft YaHei'" *ngIf="key!='itemName'&& key!='icon'&&key!='icon_bg'">
+                                                <span style="text-align: right;width: 120px;display: inline-block">{{key+' : '}}</span>
+                                                <span>{{totalApproval[key]}}</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--&lt;!&ndash;//年，月,日报趋势图&ndash;&gt;-->
+                <!--<div class="row">-->
+                    <!--<div class="col-lg-12">-->
+                        <!--<clf-view-data [title]="title" [onlyDay]="onlyDay" [onlyMonth]="onlyMonth" [onlyYear]="onlyYear"-->
+                                       <!--[onlyFlag]=" onlyFlag"[isDialog]="isDialog">-->
+                        <!--</clf-view-data>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header>
+                <span>月报概况</span>
+                <select type="text" style=" width:160px;font-size:14px;height:36px;background:#fff;float: right;padding: 0 10px;outline: none;color: #2a2a2a;font-family: Microsoft YaHei;border-radius: 4px;border: 1px solid #40dc7e!important;"
+                             [(ngModel)]="monthValue" (ngModelChange)="monthChange(monthValue)">
+                    <option *ngFor="let month of monthArr">{{month}}</option>
+                </select>
+            </nb-card-header>
+            <nb-card-body>
+                <div class="row" style="display: flex;justify-content: center;flex-wrap: nowrap" >
+                    <div class="col-lg-9">
+                        <table class="table table-bordered col-lg-12">
+                            <tbody>
+                                 <tr class='row' *ngFor="let monthlyReport of monthlyReportList;" style="min-height: 96px;padding-left: 15px;padding-right: 15px;">
+                                    <td class="col-lg-2" style="padding: 0">
+                                        <div style="background: #f8f8f8;font-weight: bold;display: flex;justify-content: center;align-items: center;height:100%;width: 100%;font-family: 'Microsoft YaHei';font-size: 16px;color: #2a2a2a">
+                                            {{monthlyReport.itemName}}
+                                        </div>
+                                    </td>
+                                <td class="col-lg-10" style="display: flex;flex-direction: row;justify-content: flex-start;" *ngIf="monthlyReport.itemName=='总费用概况'">
+                                    <ng-container  *ngFor="let key of  objectKeys(monthlyReport);">
+                                        <div class="col-lg-2" *ngIf="key!='itemName'"
+                                             style="display: flex;flex-direction:column;justify-content: center;align-items: center;padding-left:0!important;padding-right: 0!important;margin-left: 15px;margin-right: 15px;">
+                                            <div style="font-family: 'Microsoft YaHei';color:#2a2a2a;font-size: 14px;">{{key}}</div>
+                                            <div style="font-weight: bold;padding: 5px 0;font-size: 20px;font-family: 'Microsoft YaHei';color: #2a2a2a;"> ¥{{monthlyReport[key]| customPipe:1}}</div>
+                                            <div>
+                                                <span style="color: #a4abb3;font-family: 'Microsoft YaHei';font-size: 14px;">较上月 </span>
+                                                <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )>0">
+                                                    <span style="color:#40dc7e">{{(monthlyReport[key]| customPipe:2)}}</span>
+                                                </span>
+                                                <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )<0">
+                                                    <span style="color:#ff2525">{{(monthlyReport[key]| customPipe:2)}}</span>
+                                                </span>
+                                                <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )==0">
+                                                    <span style="color:#9b92ff">{{(monthlyReport[key]| customPipe:2)}}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </td>
+                                <td class="col-lg-10" style="display: flex;flex-direction: row;justify-content: flex-start;" *ngIf="monthlyReport.itemName!='总费用概况'">
+                                    <ng-container  *ngFor="let key of  objectKeys(monthlyReport);">
+                                        <div class="col-lg-2" *ngIf="key!='itemName'"
+                                             style="display: flex;flex-direction:column;justify-content: center;align-items: center;padding-left:0!important;padding-right: 0!important;margin-left: 15px;margin-right: 15px;">
+                                            <div style="font-family: 'Microsoft YaHei';color:#2a2a2a;font-size: 14px;">{{key}}</div>
+                                            <div style="font-weight: bold;padding: 5px 0;font-size: 20px;font-family: 'Microsoft YaHei';color: #2a2a2a;" *ngIf="key=='已通过费用'">¥{{monthlyReport[key] | customPipe:1}}</div>
+                                            <div style="font-weight: bold;padding: 5px 0;font-size: 20px;font-family: 'Microsoft YaHei';color: #2a2a2a;" *ngIf="key!='已通过费用'">{{monthlyReport[key]| customPipe:1}}</div>
+                                            <div>
+                                                <span style="color: #a4abb3;font-family: 'Microsoft YaHei';font-size: 14px;">较上月 </span>
+                                                <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )>0">
+                                                    <span style="color:#40dc7e">{{monthlyReport[key]| customPipe:2}}</span>
+                                                </span>
+                                                <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )<0">
+                                                    <span style="color:#ff2525">{{monthlyReport[key]| customPipe:2}}</span>
+                                                </span>
+                                                <span *ngIf="((monthlyReport[key]| customPipe:2) | containPipe )==0">
+                                                    <span style="color:#9b92ff">{{monthlyReport[key]| customPipe:2}}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-3">
+                        <table class="table table-bordered col-lg-12">
+                            <tbody>
+                            <tr class="row" style="padding-left: 15px;padding-right: 15px;display: flex;flex-direction: column;justify-content: center;align-items: center">
+                                <td style="width: 100%;min-height: 185px;">
+                                    <div class="row">
+                                        <div class="col-lg-12">通过概率</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class='col-lg-6'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="150" width="130" >
+                                                <circle cx="65" cy="85" r="50" fill="none" stroke="#ebeff5" stroke-width="10" stroke-linecap="round"/>
+                                                <circle #svg1 cx="65" cy="85" r="50" fill="none" stroke="#40dc7e" stroke-width="10" stroke-dasharray="0,10000"/>
+                                                <text fill="#40dc7e" text-anchor="middle" x="65" y="94" style="font-weight: bold;font-size: 20px;">
+                                                    {{passCountPercent | percent:'2.2' }}
+                                                </text>
+                                            </svg>
+                                        </div>
+                                        <div class='col-lg-6' style="display: flex;flex-direction: column;justify-content:center;align-items: flex-start">
+                                            <div style="font-size: 14px;">{{nowSelectedMonth}}月已通过申请数</div>
+                                            <div style="padding: 5px 0 15px 0;font-size: 20px;">{{passCount}}</div>
+                                            <div  style="color: #a4abb3"><span style="font-family: 'Microsoft YaHei';font-size: 12px;color: #a4abb3">{{nowSelectedMonth}}月申请总数</span>
+                                                <span style="font-family: 'Microsoft YaHei';font-size: 12px;color: #2a2a2a">{{total_passCount}}</span></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="row" style="padding-left: 15px;padding-right: 15px;display: flex;flex-direction: column;justify-content: center;align-items: center">
+                                <td style="width: 100%;min-height: 185px;">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="150" width="130" >
+                                                <circle cx="65" cy="85" r="50" fill="none" stroke="#ebeff5" stroke-width="10" stroke-linecap="round"/>
+                                                <circle #svg2 cx="65" cy="85" r="50" fill="none" stroke="#9b92ff" stroke-width="10" stroke-dasharray="0,10000"/>
+                                                <text fill="#9b92ff" text-anchor="middle" x="65" y="94" style="font-weight: bold;font-size: 20px;">
+                                                    {{passFeePercent | percent:'2.2' }}
+                                                </text>
+                                            </svg>
+                                        </div>
+                                        <div class="col-lg-6" style="display: flex;flex-direction: column;justify-content:center;align-items: flex-start">
+                                            <div style="font-size: 14px;">{{nowSelectedMonth}}月已通过申请费用</div>
+                                            <div style="padding: 5px 0 15px 0;font-size: 20px;">¥{{passFee}}</div>
+                                            <div style="color: #a4abb3"><span style="font-family: 'Microsoft YaHei';font-size: 12px;color: #a4abb3">{{nowSelectedMonth}}月总申请费用</span>
+                                                <span style="font-family: 'Microsoft YaHei';font-size: 12px;color: #2a2a2a">¥{{total_passFee}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+    <!--//年月切换 下载数据-->
+                    <div class="col-lg-12" style="display: flex;justify-content: space-between;height: 50px;align-items: center;">
+                        <div>
+                            <!--<span>月报趋势</span>-->
+                        </div>
+                        <div>
+                            <!--<button style="width: 50px;height: 30px;border: 1px solid #dee2e6;border-radius: 4px;background: #fff;color: #a4abb3">月</button>-->
+                            <!--<button style="width: 50px;height: 30px;border: 1px solid #40dc7e;border-radius: 4px;background: #40dc7e;color: #fff;border: 1px solid #40dc7e">年</button>-->
+                            <button style="width: 100px;height: 30px;border: 1px solid #40dc7e;border-radius: 4px;margin-left: 15px;color: #40dc7e;background: #fff" (click)="export()">下载数据</button>
+                        </div>
+                    </div>
+    <!--//趋势指标 选择控件-->
+                    <!--<div class="col-lg-12">-->
+                        <!--<table class="table table-bordered col-lg-12">-->
+                            <!--<tbody>-->
+                            <!--<tr class='row' *ngFor="let monthlyReport of monthlyReportList;" style="min-height:50px;padding-left: 15px;padding-right: 15px;">-->
+                                <!--<td class="col-lg-2" style="padding: 0">-->
+                                    <!--<div style="background: #f8f8f8;font-weight: bold;display: flex;justify-content: center;align-items: center;height:100%;width: 100%;font-size: 16px;font-family: 'Microsoft YaHei';color: #2a2a2a">-->
+                                        <!--{{monthlyReport.itemName}}-->
+                                    <!--</div>-->
+                                <!--</td>-->
+                                <!--<td class="col-lg-10" style="display: flex;flex-direction: row;justify-content: flex-start;">-->
+                                    <!--<ng-container  *ngFor="let key of  objectKeys(monthlyReport);">-->
+                                        <!--<div class="col-lg-2" *ngIf="key!='itemName'" style="display: flex;flex-direction:column;justify-content: center;align-items: center;">-->
+                                            <!--<div>-->
+                                                <!--<input type="checkbox">-->
+                                                <!--<span style="font-family: 'Microsoft YaHei';color: #2a2a2a;font-size: 14px;">{{key}}</span>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</ng-container>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                    <!--</div>-->
+    <!--//年，月,日报趋势图-->
+                    <div class="col-lg-12">
+                        <clf-view-data [title]="title" [onlyDay]="onlyDay" [onlyMonth]="onlyMonth" [onlyYear]="onlyYear"
+                                       [onlyFlag]=" onlyFlag"[isDialog]="isDialog">
+                        </clf-view-data>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-lg-8">
+        <nb-card>
+            <nb-card-header>
+                <span style="font-size: 16px;font-weight: bold;color: #2a2a2a;">业务分析</span>
+                <a style="float:right;color: #40dc7e;cursor: pointer;" [title]="title" (click)="showDetail('business')">了解更多</a>
+            </nb-card-header>
+            <nb-card-body>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div style="margin-bottom:10px;">{{nowSelectedMonth}}月业务申请数TOP5</div>
+                        <table class="table table-bordered  col-lg-12"style="text-align: center">
+                            <thead>
+                            <tr style="font-family: 'Microsoft YaHei';font-size: 12px;color: #a4abb3;">
+                                <th>排名</th>
+                                <th>业务名称</th>
+                                <th>申请数</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let tmp of businessApplicationNumberRanking;let i=index">
+                                <ng-container *ngIf="i<5">
+                                    <td *ngIf="i==0">
+                                        <span style="color:#fff;background: #ff2525;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td *ngIf="i==1">
+                                        <span style="color:#fff;background: #ffa100;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td *ngIf="i==2">
+                                        <span style="color:#fff;background: #4ca6ff;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td *ngIf="i>2">
+                                        <span style="background: #dfe3ea;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td>{{tmp.moduleName}}</td>
+                                    <td>{{tmp.totalNumber}}</td>
+                                </ng-container>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-6">
+                        <div style="margin-bottom:10px;">{{nowSelectedMonth}}月业务申请费用TOP5</div>
+                        <table class="table table-bordered col-lg-12" style="text-align: center">
+                            <thead>
+                            <tr style="font-family: 'Microsoft YaHei';font-size: 12px;color: #a4abb3;">
+                                <th>排名</th>
+                                <th>业务名称</th>
+                                <th>总费用</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let tmp of businessApplicationFeeRanking;let i=index">
+                                <ng-container *ngIf="i<5">
+                                    <td *ngIf="i==0">
+                                        <span style="color:#fff;background: #ff2525;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td *ngIf="i==1">
+                                        <span style="color:#fff;background: #ffa100;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td *ngIf="i==2">
+                                        <span style="color:#fff;background: #4ca6ff;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td *ngIf="i>2">
+                                        <span style="background: #dfe3ea;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td>{{tmp.moduleName}}</td>
+                                    <td>¥{{tmp.totalApproveFee}}</td>
+                                </ng-container>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-lg-4">
+        <nb-card>
+            <nb-card-header>
+                <span style="font-size: 16px;font-weight: bold;color: #2a2a2a;">人员分析</span>
+                <a style="float:right;color: #40dc7e;cursor: pointer;" [title]="title" (click)="showDetail('person')">了解更多</a>
+            </nb-card-header>
+            <nb-card-body>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div style="margin-bottom:10px;">{{nowSelectedMonth}}月人员申请数TOP5</div>
+                        <table class="table table-bordered col-lg-12" style="text-align: center">
+                            <thead>
+                            <tr style="font-family: 'Microsoft YaHei';font-size: 12px;color: #a4abb3;">
+                                <th>排名</th>
+                                <th>申请者</th>
+                                <th>部门</th>
+                                <th>申请数</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let tmp of numberOfPersonnelApplications;let i=index">
+                                <ng-container *ngIf="i<5">
+                                    <td *ngIf="i==0">
+                                        <span style="color:#fff;background: #ff2525;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td *ngIf="i==1">
+                                        <span style="color:#fff;background: #ffa100;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td *ngIf="i==2">
+                                        <span style="color:#fff;background: #4ca6ff;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td *ngIf="i>2">
+                                        <span style="background: #dfe3ea;text-align: center;border-radius: 4px; vertical-align: middle;width: 25px;height: 25px;line-height: 25px;display: inline-block">{{i+1}}</span>
+                                    </td>
+                                    <td>{{tmp.applicantName}}</td>
+                                    <td>{{tmp.applicantDepartment}}</td>
+                                    <td>{{tmp.totalNumber}}</td>
+                                </ng-container>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+    <div class="col-lg-12">
+        <nb-card>
+            <nb-card-header>
+                <span style="font-size: 16px;font-weight: bold;color: #2a2a2a;">商品分析</span>
+                <a style="float:right;color: #40dc7e;cursor: pointer;" [title]="title" (click)="showDetail('goods')">了解更多</a>
+            </nb-card-header>
+            <nb-card-body>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-bordered col-lg-12" style="text-align: center">
+                            <thead style="background: #f8f8f8">
+                            <tr style="font-family: 'Microsoft YaHei';font-size: 14px;font-weight: bold;color: #2a2a2a">
+                                <th>申请排名</th>
+                                <th>商品名称</th>
+                                <th>申请总数</th>
+                                <th>总费用</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let tmp of numberOfProductApplications;let i=index" style="font-family: 'Microsoft YaHei';font-size: 14px;color: #2a2a2a">
+                                <ng-container *ngIf="i<5">
+                                    <td>{{i+1}}</td>
+                                    <td>{{tmp.goodName}}</td>
+                                    <td>{{tmp.totalNumber}}</td>
+                                    <td>¥{{tmp.totalApproveFee}}</td>
+                                </ng-container>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">商品SKU详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" *ngIf="goodSku">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <div class="card-content">
+                    <p><span>&#x3000;&#x3000;商品</span><span *ngIf="goodSku.goodName">{{goodSku.goodName}}</span></p>
+                    <p><span>&#x3000;&#x3000;SKU</span><span>{{goodSku.skuName}}</span></p>
+                    <p><span>&nbsp;sku数量</span><span>{{goodSku.skuNum}}</span></p>
+                    <p><span>日常价格</span><span>{{goodSku.dailyPrice}}</span></p>
+                    <p><span>日常特价</span><span>{{goodSku.dailySpecialPrice}}</span></p>
+                    <p><span>活动价格</span><span>{{goodSku.activityPrice}}</span></p>
+                    <p><span>活动特价</span><span>{{goodSku.acticitySpecialPrice}}</span></p>
+                    <p><span>购买价格</span><span *ngIf="goodSku.purchasePrice">{{goodSku.purchasePrice}}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

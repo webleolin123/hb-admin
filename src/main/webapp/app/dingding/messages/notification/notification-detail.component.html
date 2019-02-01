@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">
+        公告详情
+    </h4>
+    <button type="button" class="close hand" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body" *ngIf="notification">
+    <div class="" id="clf_detail">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <div class="card-content">
+                    <!--<jhi-alert-error></jhi-alert-error>-->
+                    <p class="shop" style="padding: 10px 30px">
+                        <span class="mySpan">标题</span>
+                        <span>{{notification.title}}</span>
+                    </p>
+                    <p class="shop" style="padding: 10px 30px">
+                        <span class="mySpan">内容</span>
+                        <span>{{notification.content}}</span>
+                    </p>
+                    <p class="shop" style="padding: 10px 30px">
+                        <span class="mySpan">操作人</span>
+                        <span>{{notification.operator}}</span>
+                    </p>
+                    <p class="shop" style="padding: 10px 30px">
+                        <span class="mySpan">操作时间</span>
+                        <span>{{notification.publishTime | date:"yyyy/MM/dd HH:mm:ss"}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

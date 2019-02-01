@@ -1,0 +1,75 @@
+<nb-card>
+    <nb-card-header>
+        角色管理
+    </nb-card-header>
+    <nb-card-body>
+        <!--<toaster-container [toasterconfig]="config"></toaster-container>-->
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <select name="searchType" [(ngModel)]="searchType" class="search_select"
+                            style="margin-left: 0;margin-right: 20px;">
+                        <!--<option value="1">角色id</option>-->
+                        <option value="1">角色名称</option>
+                        <!--<option value="3">角色类型</option>-->
+                    </select>
+                    <input type="text" class="search_input" placeholder="请输入关键字查询，选择查询内容" [(ngModel)]="searchItem">
+                    <button class="search_btn" (click)="search()">查询</button>
+                    <button class="search_btn" (click)="reset()">重置</button>
+                    <!--<button class="search_btn" *ngIf="checked.length>0" (click)="batch()">批量编辑</button>-->
+                </div>
+            </div>
+            <div class="row" style="margin-bottom: 0;">
+                <div class="salary" style="position: absolute;right: 0;top:20px;">
+                    <button class="btn btn-hero-success btn-demo" style="color: #fff;font-size: 16px;" (click)="addRole()">
+                        添加角色
+                    </button>
+                </div>
+            </div>
+            <table cellspacing="0" class="modified">
+                <tr>
+                    <th>角色id</th>
+                    <th>角色名称</th>
+                    <th>角色类型</th>
+                    <th>角色等级</th>
+                    <th>操作</th>
+                </tr>
+                <ng-container *ngIf="rolesInfo.length>0">
+                    <tr *ngFor="let roles of rolesInfo;">
+                        <td>{{roles.id}}</td>
+                        <td>{{roles.roleName}}</td>
+                        <td>{{roles.type}}</td>
+                        <td>{{roles.level}}</td>
+                        <td>
+                            <button title="添加人员" class="btn myBtn-view" style="color: #fff;padding: 0;width: 80px;height: 30px;font-size: 14px;"(click)="addPerson(roles.id)">添加人员</button>
+                            <button title="查看人员" class="btn myBtn-view" style="color: #fff;padding: 0;width: 80px;height: 30px;font-size: 14px;"(click)="showDetail(roles.roleName)">查看人员</button>
+                            <!--<button title="编辑"><i class="ion-edit" (click)="edit(roles.id)"></i></button>-->
+                            <!--<button title="删除" *ngIf="hasAuthWithAdmin"><i class="ion-trash-a" (click)="delete(roles.id)"></i></button>-->
+                            <!--<button title="查看详情"><i class="ion-document-text" (click)="showDetail(roles.id)"></i></button>-->
+                        </td>
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf="rolesInfo.length==0">
+                    <tr>
+                        <td colspan="5">查无结果</td>
+                    </tr>
+                </ng-container>
+            </table>
+        </div>
+        <div *ngIf="rolesInfo">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <label class="totalElements">共{{totalElements}}条记录</label>
+                <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                    <option value='10'>10条/页</option>
+                    <option value='15'>15条/页</option>
+                    <option value='20'>20条/页</option>
+                    <option value='30'>30条/页</option>
+                    <option value='50'>50条/页</option>
+                </select>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

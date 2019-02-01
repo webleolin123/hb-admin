@@ -1,0 +1,131 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">创建审批权限</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>模块选择</label>
+            <table cellspacing="0">
+                <tr *ngFor="let module of businessModules">
+                    <td>{{module.businessName}}</td>
+                    <td>
+                        <a href="javascript:;" *ngFor="let childModule of module.childModules">
+                            <input type="checkbox" name="childModule" [disabled]="childModule.isDisabled"
+                                   (change)="selectChildModule(childModule)">
+                            <label>{{childModule.businessName}}</label>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="form-group">
+            <label>角色选择</label><br>
+            <input type="radio" id="fomal" name="roleId" value="2" [(ngModel)]="authority.roleId">
+            <label for="first">正式</label>
+            <input type="radio" id="test" name="roleId" value="1" [(ngModel)]="authority.roleId">
+            <label for="second">测试</label>
+        </div>
+        <div class="form-group">
+            <label>权限选择</label><br>
+            <input type="radio" id="first" name="permissionType" value="5" [(ngModel)]="authority.permissionType"><label
+            for="first">一级</label>
+            <input type="radio" id="second" name="permissionType" value="6"
+                   [(ngModel)]="authority.permissionType"><label for="second">二级</label>
+            <input type="radio" id="copyTo" name="permissionType" value="7"
+                   [(ngModel)]="authority.permissionType"><label for="copyTo">抄送</label>
+        </div>
+        <div class="form-group">
+            <label>添加人员</label>
+            <div class="person_box">
+                <div class="single_person" *ngFor="let departmentUser of selectedDepartmentUserList">
+                    <span>{{departmentUser.name.substring(0, 3)}}</span>
+                    <img src="../../../../content/images/remove_people.png" alt=""
+                         (click)="removePeople(departmentUser,departmentUser.userid)">
+                </div>
+            </div>
+            <div class="add" (click)="addPeople()"><span>+</span></div>
+        </div>
+        <div class="form-group" *ngIf="departments && isSelectedPeople">
+            <label>选择部门</label>
+            <select class="form-control" name="departmentId" [(ngModel)]="departmentId" (change)="selectedDepartment()">
+                <option value="">请选择</option>
+                <option *ngFor="let department of departments" value="{{department.id}}">{{department.name}}</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="departmentId">
+            <label>选择人员</label>
+            <select class="form-control" id="selectedUser" (change)="selectedDepartmentUser()">
+                <option value="">请选择</option>
+                <option *ngFor="let departmentUser of departmentUsers" value="{{departmentUser}}">
+                    {{departmentUser.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>类型选择</label>
+            <div class="type" *ngIf="isPicture == false && isShelves == false && isShops==false">
+                <label class="title">常态选择&#x3000;：</label>
+                <input type="radio" name="approvePermissionValue" value="1" class="normal"
+                       [(ngModel)]="authority.approvePermissionValue"><label>普通&#x3000;&#x3000;</label>
+            </div>
+            <div class="type" *ngIf="isShops">
+                <label class="title">类型：</label>
+                <input type="radio" name="approvePermissionValue" value="21" class="shops"
+                       [(ngModel)]="authority.approvePermissionValue"><label>店铺&#x3000;&#x3000;</label>
+                <input type="radio" name="approvePermissionValue" value="22" class="shops"
+                       [(ngModel)]="authority.approvePermissionValue"><label>非店铺</label>
+            </div>
+            <div class="type" *ngIf="isShelves">
+                <label class="title">上下架类型：</label>
+                <input type="radio" name="approvePermissionValue" value="31" class="shelves"
+                       [(ngModel)]="authority.approvePermissionValue"><label>上架&#x3000;&#x3000;</label>
+
+                <input type="radio" name="approvePermissionValue" value="32" class="shelves"
+                       [(ngModel)]="authority.approvePermissionValue"><label>临时下架</label>
+
+                <input type="radio" name="approvePermissionValue" value="33" class="shelves"
+                       [(ngModel)]="authority.approvePermissionValue"><label>永久下架</label>
+            </div>
+            <div class="type" *ngIf="isPicture">
+                <label class="title">作图类型&#x3000;：</label>
+                <input type="radio" name="approvePermissionValue" value="41" class="picture"
+                       [(ngModel)]="authority.approvePermissionValue"><label>日常普通</label>
+
+                <input type="radio" name="approvePermissionValue" value="42" class="picture"
+                       [(ngModel)]="authority.approvePermissionValue"><label>日常加急</label>
+
+                <input type="radio" name="approvePermissionValue" value="43" class="picture"
+                       [(ngModel)]="authority.approvePermissionValue"><label>外包装&#x3000;</label>
+
+                <input type="radio" name="approvePermissionValue" value="44" class="picture"
+                       [(ngModel)]="authority.approvePermissionValue"><label>AI设计&#x3000;</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="title">范围选择</label><br>
+            <input type="radio" id="all" name="brandRange" value="1" [(ngModel)]="authority.brandRange"
+                   [disabled]="authority.permissionType==7||authority.approvePermissionValue==21"><label for="all" class="brand"
+                                                                   [class.disabled]="authority.permissionType==7||authority.approvePermissionValue==21">全部品牌</label>
+
+            <input type="radio" id="agent" name="brandRange" value="2" [(ngModel)]="authority.brandRange"
+                   [disabled]="authority.permissionType==7||authority.approvePermissionValue==21"><label for="agent" class="brand"
+                                                                   [class.disabled]="authority.permissionType==7||authority.approvePermissionValue==21">代理品牌</label>
+
+            <input type="radio" id="self" name="brandRange" value="3" [(ngModel)]="authority.brandRange"
+                   [disabled]="authority.permissionType==7||authority.approvePermissionValue==21"><label for="self" class="brand"
+                                                                   [class.disabled]="authority.permissionType==7||authority.approvePermissionValue==21">自有品牌</label>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-floppy-o"></span>&nbsp;<span>保存</span>
+        </button>
+    </div>
+</form>
+

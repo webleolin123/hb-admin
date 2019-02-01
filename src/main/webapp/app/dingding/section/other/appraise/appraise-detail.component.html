@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">负面评价详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" id="zhiTongChe_detail" *ngIf="appraise">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <div class="card-content">
+                    <p class="shop"><span>&#x3000;淘宝ID</span><span>{{appraise.customerId}}</span></p>
+                    <p class="shop"><span>&#x3000;订单号</span><span>{{appraise.orderCode}}</span></p>
+                    <p class="shop"><span>&#x3000;商品ID</span><span>{{appraise.goodsId}}</span></p>
+                    <p class="shop"><span>商品名称</span><span class="desc">{{appraise.goodsName}}</span></p>
+                    <p class="shop"><span>&#x3000;商品sku</span><span>{{appraise.sku}}</span></p>
+                    <p class="shop" *ngFor="let content of appraise.appraiseContents">
+                        <span>&#x3000;&#x3000;评价</span><span class="desc">{{content.appraise}}&#x3000;({{content.when.substring(0, 10)}}  {{content.when.substring(11, 19)}})</span></p>
+                    <p class="shop"><span>&#x3000;&#x3000;原因</span><span class="desc">{{appraise.cause}}</span></p>
+                    <p class="shop"><span>原因分析</span><span class="desc">{{appraise.analysisOfCauses}}</span></p>
+                    <p class="shop"><span>是否联系</span><span
+                        *ngIf="appraise.touch == null || appraise.touch == 0 ">否</span><span
+                        *ngIf="appraise.touch == true || appraise.touch == 1 ">是</span></p>
+                    <p class="shop"><span>接待客服</span><span>{{appraise.react}}</span></p>
+                    <p class="shop"><span>处理方案</span><span>{{appraise.proposalsForHandling}}</span></p>
+                    <p class="shop"><span>&#x3000;&#x3000;标签</span><a href="javascript:;" *ngFor="let item of appraise.appraiseContents"><span class="label" *ngFor="let appraiseLabel of item.appraiseLabels">{{appraiseLabel.label}}</span>&#x3000;</a></p>
+                    <!--<p class="shop" *ngFor="let content of appraise.appraiseContents"><span>&#x3000;&#x3000;时间</span><span></span></p>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

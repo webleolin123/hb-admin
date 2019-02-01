@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">短信推送详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" id="zhiTongChe_detail" *ngIf="aliSms">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <div class="card-content">
+                    <p class="shop"><span>&#x3000;&#x3000;类型</span><span>{{aliSms.kind}}</span></p>
+                    <p class="shop"><span>&#x3000;&#x3000;号码</span><span>{{aliSms.phone}}</span></p>
+                    <p class="shop"><span>&#x3000;&#x3000;内容</span><span>{{aliSms.content}}</span></p>
+                    <p class="shop"><span>&#x3000;&#x3000;状态</span><span *ngIf="aliSms.status == 1">已发送</span></p>
+                    <p class="shop"><span>推送结果</span><span class="goodName">{{aliSms.result}}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

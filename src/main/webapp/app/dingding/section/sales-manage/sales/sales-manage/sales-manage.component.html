@@ -1,0 +1,56 @@
+<nb-card>
+    <nb-card-header>
+        销售管理
+    </nb-card-header>
+    <nb-card-body>
+        <!--<toaster-container [toasterconfig]="config"></toaster-container>-->
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <select name="searchType" [(ngModel)]="searchType" class="search_select"
+                            style="margin-left: 0;margin-right: 20px;">
+                        <option value="1">商品</option>
+                        <option value="2">店铺</option>
+                        <option value="3">品牌</option>
+                        <option value="4">状态</option>
+                    </select>
+                    <input type="text" class="search_input" placeholder="请输入关键字查询，选择查询内容" [(ngModel)]="searchItem">
+                    <button class="search_btn" (click)="reset()">重置</button>
+                    <button class="search_btn" (click)="search()">查询</button>
+                    <!--<button class="search_btn" *ngIf="checked.length>0" (click)="batch()">批量编辑</button>-->
+                </div>
+            </div>
+            <table cellspacing="0" class="modified">
+                <tr>
+                    <th>ID</th>
+                    <th>商品名称</th>
+                    <th>商品ID</th>
+                    <th>店铺</th>
+                    <th>品牌</th>
+                    <th>状态</th>
+                    <th>申请相关</th>
+                </tr>
+                <tr *ngFor="let sale of sales;">
+                    <td>{{sale.id}}</td>
+                    <td class="goodName text-left">{{sale.goodName}}</td>
+                    <td class="goodName text-left">{{sale.goodId}}</td>
+                    <td>{{sale.shopName}}</td>
+                    <td>{{sale.brandName}}</td>
+                    <td>
+                        <span *ngIf="sale.status == 1">在售</span>
+                        <span *ngIf="sale.status == 0">下架</span>
+                    </td>
+                    <td>
+                        <button title="查询"><i class="ion-ios-eye-outline" (click)="checkSale(sale.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="sales">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

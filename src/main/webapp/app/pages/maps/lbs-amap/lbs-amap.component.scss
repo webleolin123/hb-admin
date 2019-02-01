@@ -1,0 +1,47 @@
+@import '../../../@theme/styles/themes';
+@include nb-install-component() {
+  nb-card-body {
+    padding: 0;
+  }
+}
+#eventInfo {
+    position: absolute;
+    z-index: 9999;
+    //right: 270px;
+    right: 27%;
+    top: 20px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 7px;
+    min-width: 100px;
+    line-height: 170%;
+}
+.my-svg-marker .amap-simple-marker-label {
+    color: #fff;
+    top: 10px;
+    font-size: 20px;
+}
+#outer-box{
+    width:100%;
+    min-height: 576px;
+}
+#container {
+    width: 100%;
+    height:100%;
+}
+#panel{
+    list-style: none;
+    position: absolute;
+    background-color: white;
+    max-height: 90%;
+    overflow-y: auto;
+    top: 20%;
+    right: 25%;
+    width: 280px;
+    z-index: 101;
+    font-size: 13px;
+    color: #666;
+}
+#panel:hover{
+    cursor: pointer;
+}

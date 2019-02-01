@@ -1,0 +1,98 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">创建或编辑价格申请</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body" *ngIf="price">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group"*ngIf="shops">
+            <label>选择店铺</label>
+            <select id="selectedShop" class="form-control" [(ngModel)]="selectedShopId" name="shopId"
+                    (change)="onSelectedShop($event)">
+                <option value="0">请选择</option>
+                <option value="" *ngFor="let shop of shops" value="{{shop.id}}">
+                    {{shop.shopName}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="brands">
+            <label>选择品牌</label>
+            <select id="selectedBrand" class="form-control" [(ngModel)]="selectedBrandId" name="brandId"
+                    (change)="onSelectedBrand($event)">
+                <option value="0">请选择</option>
+                <option value="" *ngFor="let brand of brands" value="{{brand.id}}">
+                    {{brand.brandName}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="goods">
+            <label>选择商品</label>
+            <select id="selectedGood" class="form-control" [(ngModel)]="selectedGoodId" name="goodId"
+                    (change)="onSelectedGood($event)">
+                <option value="0">请选择</option>
+                <option value="" *ngFor="let good of goods" value="{{good.id}}">
+                    {{good.goodName}}
+                </option>
+            </select>
+        </div>A
+        <div class="form-group">
+            <label>选择申请类型</label>
+            <select id="selectedApplyType" class="form-control" name="applyType"
+                    [(ngModel)]="price.applyType" (change)="onSelectedApplyType($event)">
+                <option value="0">请选择</option>
+                <option value="1">定价申请</option>
+                <option value="2">价格变更</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>选择默认审批人：</label><br>
+            <label>选择部门</label>
+            <select id="selectedDepartment" class="form-control" (change)="onSelectedDepartment()">
+                <option>请选择</option>
+                <option value="" *ngFor="let department of departments" value="{{department.id}}">
+                    {{department.name}}
+                </option>
+            </select>
+            <label>选择部门成员</label>
+            <select id="selectedDepartmentUser" class="form-control" (change)="onSelectedDepartmentUser()" *ngIf="departmentUsers">
+                <option>请选择</option>
+                <option *ngFor="let departmentUser of departmentUsers" value="{{departmentUser.name}}"
+                        data-value="{{departmentUser.userId}}">
+                    {{departmentUser.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" readonly *ngIf="departmentUsers">
+            <!--<div *ngFor="let approver of selectedApproverList" style="padding-left: 20px;">-->
+                <!--<span class="choosedApprover" (click)="removeFormSelectedApproverList(approver)">{{approver.dingName}}</span>-->
+            <!--</div>-->
+        </div>
+        <div class="form-group">
+            <label>选择默认抄送人：</label>
+            <label>选择部门</label>
+            <select id="selectedCopyToDepartment" class="form-control" (change)="onSelectedCopyToDepartment()">
+                <option>请选择</option>
+                <option value="" *ngFor="let department of departments" value="{{department.id}}">
+                    {{department.name}}
+                </option>
+            </select>
+            <label>选择部门成员</label>
+            <select id="selectedCopyToDepartmentUser" class="form-control"
+                    (change)="onSelectedCopyToDepartmentUser()" *ngIf="copyToDepartmentUsers">
+                <option>请选择</option>
+                <option *ngFor="let copyToDepartmentUser of copyToDepartmentUsers"
+                        value="{{copyToDepartmentUser.name}}" data-value="{{copyToDepartmentUser.userId}}">
+                    {{copyToDepartmentUser.name}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()"><span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary"><span>保存</span>
+        </button>
+    </div>
+</form>

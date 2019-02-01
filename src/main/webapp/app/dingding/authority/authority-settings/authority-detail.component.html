@@ -1,0 +1,84 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">审批权限详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" id="zhiTongChe_detail" *ngIf="authority">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <div class="card-content">
+                    <p class="shop"><span>&#x3000;&#x3000;&#x3000;id</span><span>{{authority.id}}</span></p>
+                    <p class="brand"><span>&#x3000;&#x3000;模块</span><span>{{authority.businessType}}</span></p>
+                    <p class="brand"><span>&#x3000;模块id</span><span>{{authority.businessType}}</span></p>
+                    <p class="priceType">
+                        <span>&#x3000;&#x3000;类型</span>
+                        <span *ngIf="authority.approvePermissionValue == 1">普通</span>
+                        <!--<span *ngIf="authority.approvePermissionValue == 2 || authority.approvePermissionValue == 21">店铺</span>-->
+                        <span *ngIf="authority.approvePermissionValue == 21">店铺</span>
+                        <span *ngIf="authority.approvePermissionValue == 22">非店铺</span>
+                        <span *ngIf="authority.approvePermissionValue == 3">上下架专属</span>
+                        <span *ngIf="authority.approvePermissionValue == 31">上架</span>
+                        <span *ngIf="authority.approvePermissionValue == 32">临时下架</span>
+                        <span *ngIf="authority.approvePermissionValue == 33">永久下架</span>
+                        <span *ngIf="authority.approvePermissionValue == 4">作图</span>
+                        <span *ngIf="authority.approvePermissionValue == 41">日常作图</span>
+                        <span *ngIf="authority.approvePermissionValue == 42">加急作图</span>
+                        <span *ngIf="authority.approvePermissionValue == 43">外包装</span>
+                        <span *ngIf="authority.approvePermissionValue == 44">AI设计</span>
+                    </p>
+
+                    <p class="priceType"><span>&#x3000;&#x3000;权限</span><span
+                        *ngIf="authority.permissionType == 1">添加</span><span
+                        *ngIf="authority.permissionType == 2">删除</span><span
+                        *ngIf="authority.permissionType == 3">修改</span><span
+                        *ngIf="authority.permissionType == 4">查询</span><span
+                        *ngIf="authority.permissionType == 5">一级审批</span><span
+                        *ngIf="authority.permissionType == 6">二级审批</span><span
+                        *ngIf="authority.permissionType == 7">抄送</span></p>
+
+                    <p class="priceType"><span>&#x3000;&#x3000;范围</span>
+                        <ng-container *ngIf="authority.approvePermissionValue !=21&&this.authority.permissionType!=7">
+                            <span *ngIf="authority.brandRange == 1">全部品牌</span>
+                            <span *ngIf="authority.brandRange == 2">代理品牌</span>
+                            <span *ngIf="authority.brandRange == 3">自有品牌</span>
+                        </ng-container>
+                    </p>
+
+                    <p class="priceType"><span>是否默认权限</span><span
+                        *ngIf="authority.brandRange == 0">否</span><span
+                        *ngIf="authority.brandRange == 0">是</span></p>
+
+                </div>
+            </div>
+
+            <div class="list-block" style="margin-top: 16px;">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">人员</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="carbonCopy-box choose-box">
+                        <div>
+                            <a href="javascript:;"
+                               class="choosed"><span>{{dingName}}</span><br>
+                                <label>{{dingName}}</label>
+                            </a>
+                        </div>
+                        <!--<div *ngFor="let person of authority.dingPersonDTO" style="display: inline-block;">-->
+                            <!--<a href="javascript:;"-->
+                               <!--class="choosed"><span>{{person.dingName}}</span><br>-->
+                                <!--<label>{{person.dingName}}</label>-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

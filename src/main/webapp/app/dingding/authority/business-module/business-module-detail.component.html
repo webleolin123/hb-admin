@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">模块详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" *ngIf="businessModule">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <!--<img src="{{baseImageUrl+banner.image}}" alt="" class="statusImg" style="width: 150px;height: 90px;">-->
+                <div class="card-content">
+                    <p class="shop"><span>&#x3000;&#x3000;&#x3000;id</span><span>{{businessModule.id}}</span></p>
+                    <p class="shop"><span>业务名称</span><span>{{businessModule.businessName}}</span></p>
+                    <p class="shop"><span>&#x3000;业务id</span><span
+                        class="goodName">{{businessModule.businessType}}</span></p>
+                    <p class="shop"><span>业务链接</span><span class="goodName">{{businessModule.linkUrl}}</span></p>
+                    <p class="shop"><span>业务层级</span><span *ngIf="businessModule.level == 0">父模块</span><span
+                        *ngIf="businessModule.level == 1">一级模块</span><span
+                        *ngIf="businessModule.level == 2">二级模块</span></p>
+                    <p class="shop"><span>&#x3000;&#x3000;排序</span><span>{{businessModule.seq}}</span></p>
+                    <p class="shop"><span>审批层级数</span><span>{{businessModule.seqLevel}}</span></p>
+                    <p class="shop"><span>特殊权限</span><span
+                        *ngIf="businessModule.approvePermissionType==1">普通</span><span
+                        *ngIf="businessModule.approvePermissionType==2">店铺属性</span><span
+                        *ngIf="businessModule.approvePermissionType==3">上下架专属</span><span
+                        *ngIf="businessModule.approvePermissionType==4">作图</span></p>
+                    <p class="shop">
+                        <span>&#x3000;&#x3000;状态</span>
+                        <span *ngIf="businessModule.status == 0">删除/不显示</span>
+                        <span *ngIf="businessModule.status == 1">正常</span>
+                        <span *ngIf="businessModule.status == 2">未开发完成</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+        <span class="fa fa-ban"></span>&nbsp;<span>取消</span>
+    </button>
+    <button class="btn btn-primary" (click)="edit(businessModule.id)">
+        <span class="fa fa-floppy-o"></span>&nbsp;<span>编辑</span>
+    </button>
+</div>

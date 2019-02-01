@@ -1,0 +1,59 @@
+<nb-card>
+    <nb-card-header>
+        店铺
+    </nb-card-header>
+
+    <nb-card-body>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <input type="text" class="search_input" placeholder="请输入关键字查询">
+                    <button class="search_btn">查询</button>
+                </div>
+                <button class="btn {{ settingsBtn[0].class }} btn-demo" (click)="add()">{{
+                    settingsBtn[0].buttonTitle}}
+                </button>
+            </div>
+            <table cellspacing="0">
+                <tr>
+                    <th>id</th>
+                    <th>店铺名称</th>
+                    <th>关联url前缀</th>
+                    <th>平台</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let shop of shops;">
+                    <td>{{shop.id}}</td>
+                    <td>{{shop.shopName}}</td>
+                    <td>{{shop.preLink}}</td>
+                    <td>{{shop.platformName}}</td>
+                    <td>
+                        <span *ngIf="shop.status == 1">正常</span>
+                        <span *ngIf="shop.status == 0">删除</span>
+                    </td>
+                    <td>
+                        <button title="查看商品"><i class="ion-ios-eye-outline" (click)="checkGood(shop.id)"></i></button>
+                        <button title="查看"><i class="ion-edit" (click)="edit(shop.id)"></i></button>
+                        <button title="删除"><i class="ion-trash-a" (click)="delete(shop.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="shops">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <label class="totalElements">共{{totalElements}}条记录</label>
+                <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                    <option value='10'>10条/页</option>
+                    <option value='15'>15条/页</option>
+                    <option value='20'>20条/页</option>
+                    <option value='30'>30条/页</option>
+                    <option value='50'>50条/页</option>
+                </select>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

@@ -1,0 +1,189 @@
+<nb-card>
+    <nb-card-header>
+        直通车
+    </nb-card-header>
+    <nb-card-body>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <label>店铺:</label>
+                    <input type="text" class="search_input_duan" placeholder="店铺搜索" [(ngModel)]="searchItem_shopName">
+                    <label>店铺品牌:</label>
+                    <input type="text" class="search_input_duan" placeholder="品牌搜索" [(ngModel)]="searchItem_brandName">
+                    <label>商品:</label>
+                    <input type="text" class="search_input_duan" placeholder="商品搜索" [(ngModel)]="searchItem_goodName">
+                    <label>申请人:</label>
+                    <input type="text" class="search_input_duan" placeholder="申请人搜索" [(ngModel)]="searchItem_applicant">
+                </div> </div>
+            <div class="row">
+                <div class="search_box">
+                    <label>费用类型:</label>
+                    <select class=" search_select " style="width: 125px;background: #fff;margin-right: 40px!important;" [(ngModel)]="searchItem_priceType">
+                        <option value='0'>全部</option>
+                        <option value='1'>日费用</option>
+                        <option value='2'>月费用</option>
+                        <option value='3'>总费用</option>
+                    </select>
+                    <label  style='width:80px'>起止时间:</label>
+                    <input type="date" class="search_select" style="margin-right:45px;" [(ngModel)]="searchItem_startTime">
+                    <label  style="margin:0 10px">至:</label>
+                    <input type="date" class="search_select" [(ngModel)]="searchItem_endTime" style="margin-right: 40px;!important;">
+                    <button class="search_btn" (click)="search()" sty>查询</button>
+                    <button class="search_btn" (click)="reset()">重置</button>
+                    <div class="export-data"  style="position: absolute;right: 20px;top:70px;">
+                        <button class="btn btn-hero-primary "  (click)="viewData()">查看数据</button>
+                        <button class="btn btn-hero-primary "  (click)="export()">导出csv数据</button>
+                        <button class="btn btn-hero-primary" (click)="add()">添加新数据</button>
+                    </div>
+                </div>
+            </div>
+            <table cellspacing="0" class="modified">
+                <tr>
+                    <th (click)="sort(sortItemArr[0])">
+                        <span>
+                            <span style="margin-right: 6px;">id</span>
+                           <img src='../../../../../../content/images/sort_normal.png' *ngIf="sortItemArr[0].isOrin">
+                            <ng-container *ngIf="!sortItemArr[0].isOrin">
+                              <img src='../../../../../../content/images/sort_desc.png' *ngIf="sortItemArr[0].isDesc">
+                              <img src='../../../../../../content/images/sort_asc.png' *ngIf="!sortItemArr[0].isDesc">
+                            </ng-container>
+                        </span>
+                    </th>
+                    <th (click)="sort(sortItemArr[1])">
+                        <span>
+                            <span style="margin-right: 6px;">店铺</span>
+                           <img src='../../../../../../content/images/sort_normal.png' *ngIf="sortItemArr[1].isOrin">
+                            <ng-container *ngIf="!sortItemArr[1].isOrin">
+                              <img src='../../../../../../content/images/sort_desc.png' *ngIf="sortItemArr[1].isDesc">
+                              <img src='../../../../../../content/images/sort_asc.png' *ngIf="!sortItemArr[1].isDesc">
+                            </ng-container>
+                        </span>
+                    </th>
+                    <th (click)="sort(sortItemArr[2])">
+                        <span>
+                            <span style="margin-right: 6px;">品牌</span>
+                           <img src='../../../../../../content/images/sort_normal.png' *ngIf="sortItemArr[2].isOrin">
+                            <ng-container *ngIf="!sortItemArr[2].isOrin">
+                              <img src='../../../../../../content/images/sort_desc.png' *ngIf="sortItemArr[2].isDesc">
+                              <img src='../../../../../../content/images/sort_asc.png' *ngIf="!sortItemArr[2].isDesc">
+                            </ng-container>
+                        </span>
+                    </th>
+                    <th (click)="sort(sortItemArr[3])">
+                        <span>
+                            <span style="margin-right: 6px;">商品</span>
+                           <img src='../../../../../../content/images/sort_normal.png' *ngIf="sortItemArr[3].isOrin">
+                            <ng-container *ngIf="!sortItemArr[3].isOrin">
+                              <img src='../../../../../../content/images/sort_desc.png' *ngIf="sortItemArr[3].isDesc">
+                              <img src='../../../../../../content/images/sort_asc.png' *ngIf="!sortItemArr[3].isDesc">
+                            </ng-container>
+                        </span>
+                    </th>
+                    <th (click)="sort(sortItemArr[4])">
+                        <span>
+                            <span style="margin-right: 6px;">费用类型</span>
+                           <img src='../../../../../../content/images/sort_normal.png' *ngIf="sortItemArr[4].isOrin">
+                            <ng-container *ngIf="!sortItemArr[4].isOrin">
+                              <img src='../../../../../../content/images/sort_desc.png' *ngIf="sortItemArr[4].isDesc">
+                              <img src='../../../../../../content/images/sort_asc.png' *ngIf="!sortItemArr[4].isDesc">
+                            </ng-container>
+                        </span>
+                    </th>
+                    <th (click)="sort(sortItemArr[5])">
+                         <span>
+                            <span style="margin-right: 6px;">开始时间</span>
+                           <img src='../../../../../../content/images/sort_normal.png' *ngIf="sortItemArr[5].isOrin">
+                            <ng-container *ngIf="!sortItemArr[5].isOrin">
+                              <img src='../../../../../../content/images/sort_desc.png' *ngIf="sortItemArr[5].isDesc">
+                              <img src='../../../../../../content/images/sort_asc.png' *ngIf="!sortItemArr[5].isDesc">
+                            </ng-container>
+                        </span>
+                    </th>
+                    <th (click)="sort(sortItemArr[6])">
+                         <span>
+                            <span style="margin-right: 6px;">结束时间</span>
+                           <img src='../../../../../../content/images/sort_normal.png' *ngIf="sortItemArr[6].isOrin">
+                            <ng-container *ngIf="!sortItemArr[6].isOrin">
+                              <img src='../../../../../../content/images/sort_desc.png' *ngIf="sortItemArr[6].isDesc">
+                              <img src='../../../../../../content/images/sort_asc.png' *ngIf="!sortItemArr[6].isDesc">
+                            </ng-container>
+                        </span>
+                    </th>
+                    <th (click)="sort(sortItemArr[7])">
+                         <span>
+                            <span style="margin-right: 6px;">总费用</span>
+                           <img src='../../../../../../content/images/sort_normal.png' *ngIf="sortItemArr[7].isOrin">
+                            <ng-container *ngIf="!sortItemArr[7].isOrin">
+                              <img src='../../../../../../content/images/sort_desc.png' *ngIf="sortItemArr[7].isDesc">
+                              <img src='../../../../../../content/images/sort_asc.png' *ngIf="!sortItemArr[7].isDesc">
+                            </ng-container>
+                        </span>
+                    </th>
+                    <th (click)="sort(sortItemArr[8])">
+                         <span>
+                            <span style="margin-right: 6px;">申请人</span>
+                           <img src='../../../../../../content/images/sort_normal.png' *ngIf="sortItemArr[8].isOrin">
+                            <ng-container *ngIf="!sortItemArr[8].isOrin">
+                              <img src='../../../../../../content/images/sort_desc.png' *ngIf="sortItemArr[8].isDesc">
+                              <img src='../../../../../../content/images/sort_asc.png' *ngIf="!sortItemArr[8].isDesc">
+                            </ng-container>
+                        </span>
+                    </th>
+                    <th (click)="sort(sortItemArr[9])">
+                         <span>
+                            <span style="margin-right: 6px;">状态</span>
+                           <img src='../../../../../../content/images/sort_normal.png' *ngIf="sortItemArr[9].isOrin">
+                            <ng-container *ngIf="!sortItemArr[9].isOrin">
+                              <img src='../../../../../../content/images/sort_desc.png' *ngIf="sortItemArr[9].isDesc">
+                              <img src='../../../../../../content/images/sort_asc.png' *ngIf="!sortItemArr[9].isDesc">
+                            </ng-container>
+                        </span>
+                    </th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let zhiTongChe of zhiTongChes;">
+                    <td>{{zhiTongChe.id}}</td>
+                    <td>{{zhiTongChe.shopName}}</td>
+                    <td>{{zhiTongChe.brandName}}</td>
+                    <td class="goodName text-left">
+                        <span>{{zhiTongChe.goodName}}</span>
+                    </td>
+                    <td>
+                        <span *ngIf="zhiTongChe.priceType == 1">日费用</span>
+                        <span *ngIf="zhiTongChe.priceType == 2">月费用</span>
+                        <span *ngIf="zhiTongChe.priceType == 3">总费用</span>
+                    </td>
+                    <td>{{zhiTongChe.startDate}}</td>
+                    <td>{{zhiTongChe.endDate}}</td>
+                    <td>{{zhiTongChe.totalPrice}}元</td>
+                    <td *ngIf="zhiTongChe.approveInfoDTO">{{zhiTongChe.approveInfoDTO.applicant}}</td>
+                    <td>
+                        <span *ngIf="zhiTongChe.approveInfoDTO && zhiTongChe.approveInfoDTO.status == 1">待审批</span>
+                        <span *ngIf="zhiTongChe.approveInfoDTO && zhiTongChe.approveInfoDTO.status == 2">已通过</span>
+                        <span *ngIf="zhiTongChe.approveInfoDTO && zhiTongChe.approveInfoDTO.status == 3">已拒绝</span>
+                        <span *ngIf="zhiTongChe.approveInfoDTO && zhiTongChe.approveInfoDTO.status == 12">已完结</span>
+                        <span *ngIf="zhiTongChe.approveInfoDTO && (zhiTongChe.approveInfoDTO.status == 6 || zhiTongChe.approveInfoDTO.status == 9 || zhiTongChe.approveInfoDTO.status == 11)">已撤销</span>
+                    </td>
+                    <td>
+                        <button><i class="ion-edit" (click)="edit(zhiTongChe.id)"></i></button>
+                        <button><i class="ion-trash-a" (click)="delete(zhiTongChe.id)"></i></button>
+                        <button><i class="ion-clipboard" (click)="check(zhiTongChe.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="row justify-content-center" *ngIf="zhiTongChes">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                            [boundaryLinks]="true" (pageChange)="loadPage(page)">
+            </ngb-pagination>
+            <label class="totalElements">共{{totalElements}}条记录</label>
+            <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                <option value='10'>10条/页</option>
+                <option value='15'>15条/页</option>
+                <option value='20'>20条/页</option>
+                <option value='30'>30条/页</option>
+                <option value='50'>50条/页</option>
+            </select>
+        </div>
+    </nb-card-body>
+</nb-card>

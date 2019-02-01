@@ -1,0 +1,111 @@
+<nb-card>
+    <nb-card-header>
+        <h4>{{title}}</h4>
+        <button class='myBtn-primary' style="float: right;" (click)="return()">返回首页</button>
+    </nb-card-header>
+    <nb-card-body>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <select name="searchType" [(ngModel)]="searchType" class="search_select"  style="margin-left: 0;margin-right: 20px;" *ngIf="titleEN=='business'">
+                        <option value="1">业务名称</option>
+                    </select>
+                    <select name="searchType" [(ngModel)]="searchType" class="search_select"  style="margin-left: 0;margin-right: 20px;" *ngIf="titleEN=='goods'">
+                        <option value="1">商品名称</option>
+                    </select>
+                    <select name="searchType" [(ngModel)]="searchType" class="search_select"  style="margin-left: 0;margin-right: 20px;" *ngIf="titleEN=='person'">
+                        <option value="1">申请人</option>
+                    </select>
+                    <input type="text" class="search_input" placeholder="请输入关键字查询，选择查询内容" [(ngModel)]="searchItem">
+                    <button class="search_btn" (click)="search()">查询</button>
+                    <button class="search_btn" (click)="reset()">重置</button>
+                    <!--<button class="search_btn" *ngIf="checked.length>0" (click)="batch()">批量编辑</button>-->
+                </div>
+            </div>
+            <table cellspacing="0" class="modified" *ngIf="titleEN=='business'">
+                <tr>
+                    <th>业务名称</th>
+                    <th>申请总数</th>
+                    <th>待办申请</th>
+                    <th>通过申请</th>
+                    <th>总费用</th>
+                    <th>通过费用</th>
+                    <th>实际费用</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let business of detailList;">
+                    <td>{{business.moduleName}}</td>
+                    <td>{{business.totalNumber}}</td>
+                    <td>{{business.toDoNumber}}</td>
+                    <td>{{business.adoptedNumber}}</td>
+                    <td>¥{{business.totalApproveFee}}</td>
+                    <td>¥{{business.adoptedApproveFee}}</td>
+                    <td>¥{{business.usedApproveFee}}</td>
+                    <td>
+                        <button class="myBtn-dark" (click)="toTrend(business.moduleId,titleEN,business.moduleName)">趋势</button>
+                        <button class="myBtn-dark"(click)="toDetail(business.moduleId,titleEN,business.moduleName)">详情</button>
+                    </td>
+                </tr>
+            </table>
+            <table cellspacing="0" class="modified" *ngIf="titleEN=='goods'">
+                <tr>
+                    <th>商品名称</th>
+                    <th>申请总数</th>
+                    <th>通过申请</th>
+                    <th>总费用</th>
+                    <th>通过费用</th>
+                    <th>实际费用</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let goods of detailList;">
+                    <td>{{goods.goodName}}</td>
+                    <td>{{goods.totalNumber}}</td>
+                    <td>{{goods.adoptedNumber}}</td>
+                    <td>¥{{goods.totalApproveFee}}</td>
+                    <td>¥{{goods.adoptedApproveFee}}</td>
+                    <td>¥{{goods.usedApproveFee}}</td>
+                    <td>
+                        <button class="myBtn-dark" (click)="toTrend(goods.goodId,titleEN,goods.goodName)">趋势</button>
+                        <button class="myBtn-dark"(click)="toDetail(goods.goodId,titleEN,goods.goodName)">详情</button>
+                    </td>
+                </tr>
+            </table>
+            <table cellspacing="0" class="modified" *ngIf="titleEN=='person'">
+                <tr>
+                    <th>申请人</th>
+                    <th>申请总数</th>
+                    <th>通过申请</th>
+                    <th>总费用</th>
+                    <th>通过费用</th>
+                    <th>实际费用</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let person of detailList;">
+                    <td>{{person.applicantName}}</td>
+                    <td>{{person.totalNumber}}</td>
+                    <td>{{person.adoptedNumber}}</td>
+                    <td>¥{{person.totalApproveFee}}</td>
+                    <td>¥{{person.adoptedApproveFee}}</td>
+                    <td>¥{{person.usedApproveFee}}</td>
+                    <td>
+                        <button class="myBtn-dark" (click)="toTrend(person.applicantId,titleEN,person.applicantName)">趋势</button>
+                        <button class="myBtn-dark"(click)="toDetail(person.applicantId,titleEN,person.applicantName)">详情</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="row justify-content-center" *ngIf="detailList">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                            [boundaryLinks]="true" (pageChange)="loadPage(page)">
+            </ngb-pagination>
+            <label class="totalElements">共{{totalElements}}条记录</label>
+            <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                <option value='10'>10条/页</option>
+                <option value='15'>15条/页</option>
+                <option value='20'>20条/页</option>
+                <option value='30'>30条/页</option>
+                <option value='50'>50条/页</option>
+            </select>
+        </div>
+    </nb-card-body>
+</nb-card>

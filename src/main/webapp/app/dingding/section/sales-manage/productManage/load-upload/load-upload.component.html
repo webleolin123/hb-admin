@@ -1,0 +1,103 @@
+<nb-card>
+    <nb-card-header>
+        上下架申请
+    </nb-card-header>
+
+    <nb-card-body>
+        <!--<ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"-->
+        <!--(editConfirm)="onSaveConfirm($event)" (createConfirm)="onCreateConfirm($event)">-->
+        <!--</ng2-smart-table>-->
+
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <label>店铺:</label>
+                    <input type="text" class="search_input_duan" placeholder="店铺搜索" [(ngModel)]="searchItem_shopName">
+                    <label>店铺品牌:</label>
+                    <input type="text" class="search_input_duan" placeholder="品牌搜索" [(ngModel)]="searchItem_brandName">
+                    <label>商品:</label>
+                    <input type="text" class="search_input_duan" placeholder="商品搜索" [(ngModel)]="searchItem_goodName">
+                    <label>申请人:</label>
+                    <input type="text" class="search_input_duan" placeholder="申请人搜索" [(ngModel)]="searchItem_applicant">
+                </div> </div>
+            <div class="row">
+                <div class="search_box">
+                    <label>类型:</label>
+                    <select class=" search_select " style="width: 125px;background: #fff;margin-right: 40px!important;" [(ngModel)]="searchItem_priceType">
+                        <option value='0'>全部</option>
+                        <option value='1'>上架</option>
+                        <option value='2'>永久下架</option>
+                        <option value='3'>临时下架</option>
+                    </select>
+                    <label  style='width:80px'>起止时间:</label>
+                    <input type="date" class="search_select" style="margin-right:45px;" [(ngModel)]="searchItem_startTime">
+                    <label  style="margin:0 10px">至:</label>
+                    <input type="date" class="search_select" [(ngModel)]="searchItem_endTime" style="margin-right: 40px;!important;">
+                    <button class="search_btn" (click)="search()">查询</button>
+                    <button class="search_btn" (click)="reset()">重置</button>
+                    <div class="export-data"  style="position: absolute;right: 20px;top:70px;">
+                        <button class="btn btn-hero-primary "  (click)="viewData()">查看数据</button>
+                        <button class="btn btn-hero-primary "  (click)="export()">导出csv数据</button>
+                        <button class="btn btn-hero-primary" (click)="add()">添加新数据</button>
+                    </div>
+                </div>
+            </div>
+            <table cellspacing="0" class="modified">
+                <tr>
+                    <th>id</th>
+                    <th>店铺</th>
+                    <th>品牌</th>
+                    <th>商品</th>
+                    <th>上/下架</th>
+                    <th>申请时间</th>
+                    <!--<th>结束时间</th>-->
+                    <!--<th>总费用</th>-->
+                    <th>申请人</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let shelve of shelves">
+                    <td>{{shelve.id}}</td>
+                    <td>{{shelve.approveInfoDTO.shopName}}</td>
+                    <td>{{shelve.approveInfoDTO.brandName}}</td>
+                    <td class="goodName text-left">
+                        <span>{{shelve.approveInfoDTO.goodName}}</span>
+                    </td>
+                    <td>
+                        <span *ngIf="shelve.applyType == 1">上架</span>
+                        <span *ngIf="shelve.applyType == 2">永久下架</span>
+                        <span *ngIf="shelve.applyType == 3">临时下架</span>
+                    </td>
+                    <td *ngIf="shelve.approveInfoDTO">{{shelve.approveInfoDTO.createdDate | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td *ngIf="shelve.approveInfoDTO">{{shelve.approveInfoDTO.applicant}}</td>
+                    <td>
+                        <span *ngIf="shelve.approveInfoDTO && shelve.approveInfoDTO.status == 1">待审批</span>
+                        <span *ngIf="shelve.approveInfoDTO && shelve.approveInfoDTO.status == 2">已通过</span>
+                        <span *ngIf="shelve.approveInfoDTO && shelve.approveInfoDTO.status == 3">已拒绝</span>
+                        <span *ngIf="shelve.approveInfoDTO && shelve.approveInfoDTO.status == 12">已完结</span>
+                        <span *ngIf="shelve.approveInfoDTO && (shelve.approveInfoDTO.status == 6 || shelve.approveInfoDTO.status == 9 || shelve.approveInfoDTO.status == 11)">已撤销</span>
+                    </td>
+                    <td>
+                        <button><i class="ion-edit" (click)="edit(shelve.id)"></i></button>
+                        <button><i class="ion-trash-a" (click)="delete(shelve.id)"></i></button>
+                        <button><i class="ion-clipboard" (click)="check(shelve.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="row justify-content-center" *ngIf="shelves">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                            [boundaryLinks]="true" (pageChange)="loadPage(page)">
+            </ngb-pagination>
+            <label class="totalElements">共{{totalElements}}条记录</label>
+            <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                <option value='10'>10条/页</option>
+                <option value='15'>15条/页</option>
+                <option value='20'>20条/页</option>
+                <option value='30'>30条/页</option>
+                <option value='50'>50条/页</option>
+            </select>
+        </div>
+    </nb-card-body>
+</nb-card>

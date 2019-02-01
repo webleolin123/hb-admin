@@ -1,0 +1,134 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">创建或编辑短信</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body" *ngIf="message">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" *ngIf="shops">
+            <label>选择店铺</label>
+            <select id="selectedShop" class="form-control" [(ngModel)]="selectedShopId" name="shopId"
+                    (change)="onSelectedShop($event)">
+                <option value="0">请选择</option>
+                <option value="" *ngFor="let shop of shops" value="{{shop.id}}">
+                    {{shop.shopName}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>选择类型</label>
+            <select class="form-control" name="smsType" [(ngModel)]="message.smsType">
+                <option value="0">请选择</option>
+                <option value="1">商品短信</option>
+                <option value="2">活动短信</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="brands&&message.smsType == 1">
+            <label>选择品牌</label>
+            <select id="selectedBrand" class="form-control" [(ngModel)]="selectedBrandId" name="brandId"
+                    (change)="onSelectedBrand($event)">
+                <option value="0">请选择</option>
+                <option value="" *ngFor="let brand of brands" value="{{brand.id}}">
+                    {{brand.brandName}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="goods&&message.smsType == 1">
+            <label>选择商品</label>
+            <select id="selectedGood" class="form-control" [(ngModel)]="selectedGoodId" name="goodId"
+                    (change)="onSelectedGood($event)">
+                <option value="0">请选择</option>
+                <option value="" *ngFor="let good of goods" value="{{good.id}}">
+                    {{good.goodName}}
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>推送数量</label>
+            <input type="number" placeholder="" class="form-control" name="pushNumber "
+                   [(ngModel)]="message.pushNumber ">
+        </div>
+        <div class="form-group">
+            <label>选择推送事由</label>
+            <select id="selectedBusinessType" class="form-control" name="pushCause " [(ngModel)]="message.pushCause ">
+                <option value="0">请选择</option>
+                <option value="1">单品活动</option>
+                <option value="2">好评活动</option>
+                <option value="3">催收活动</option>
+                <option value="4">店铺活动</option>
+                <option value="5">其他</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>推送内容</label>
+            <input type="text" placeholder="" class="form-control" name="smsContent "
+                   [(ngModel)]="message.smsContent">
+        </div>
+        <div class="form-group">
+            <label>开始时间</label>
+            <input type="text" class="form-control" placeholder="请输入开始时间(格式：2018-05-01)"
+                   [(ngModel)]="message.startDate" name="startDate"/>
+        </div>
+        <div class="form-group">
+            <label>结束时间</label>
+            <input type="text" class="form-control" placeholder="请输入开始时间(格式：2018-05-01)"
+                   [(ngModel)]="message.endDate" name="endDate"/>
+        </div>
+
+        <div class="form-group">
+            <label>选择默认审批人：</label><br>
+            <label>选择部门</label>
+            <select id="selectedDepartment" class="form-control" (change)="onSelectedDepartment()">
+                <option>请选择</option>
+                <option value="" *ngFor="let department of departments" value="{{department.id}}">
+                    {{department.name}}
+                </option>
+            </select>
+            <label>选择部门成员</label>
+            <select id="selectedDepartmentUser" class="form-control" (change)="onSelectedDepartmentUser()"
+                    *ngIf="departmentUsers !=null">
+                <option>请选择</option>
+                <option *ngFor="let departmentUser of departmentUsers" value="{{departmentUser.name}}"
+                        data-value="{{departmentUser.userId}}">
+                    {{departmentUser.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" readonly *ngIf="departmentUsers !=null">
+            <div *ngFor="let approver of selectedApproverList" style="padding-left: 20px;">
+                <span class="choosedApprover"
+                      (click)="removeFormSelectedApproverList(approver)">{{approver.dingName}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>选择默认抄送人：</label>
+            <label>选择部门</label>
+            <select id="selectedCopyToDepartment" class="form-control" (change)="onSelectedCopyToDepartment()">
+                <option>请选择</option>
+                <option value="" *ngFor="let department of departments" value="{{department.id}}">
+                    {{department.name}}
+                </option>
+            </select>
+            <label>选择部门成员</label>
+            <select id="selectedCopyToDepartmentUser" class="form-control"
+                    (change)="onSelectedCopyToDepartmentUser()"
+                    *ngIf="copyToDepartmentUsers !=null">
+                <option>请选择</option>
+                <option *ngFor="let copyToDepartmentUser of copyToDepartmentUsers"
+                        value="{{copyToDepartmentUser.name}}" data-value="{{copyToDepartmentUser.userId}}">
+                    {{copyToDepartmentUser.name}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()"><span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary"><span>保存</span>
+        </button>
+    </div>
+</form>

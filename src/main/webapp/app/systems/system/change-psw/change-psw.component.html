@@ -1,0 +1,34 @@
+<nb-card>
+    <nb-card-header>
+        修改密码
+    </nb-card-header>
+    <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+        <div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h2 *ngIf="currentAccount">[<b>{{currentAccount.login}}</b>]</h2>
+                    <form name="form" role="form" (ngSubmit)="changePassword()" #passwordForm="ngForm">
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="password">新密码</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                   #passwordInput="ngModel"
+                                   placeholder="请输入新密码"
+                                   [(ngModel)]="password" minlength=4 maxlength=50 required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="confirmPassword">确认密码</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                                   #confirmPasswordInput="ngModel"
+                                   placeholder="请确认新密码"
+                                   [(ngModel)]="confirmPassword" minlength=4 maxlength=50 required>
+                        </div>
+                        <button type="submit" [disabled]="passwordForm.form.invalid" class="btn btn-primary">Save
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

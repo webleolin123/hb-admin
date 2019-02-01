@@ -1,0 +1,121 @@
+<nb-card>
+    <nb-card-header>
+        满减申请
+    </nb-card-header>
+
+    <nb-card-body>
+        <!--<ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"-->
+        <!--(editConfirm)="onSaveConfirm($event)" (createConfirm)="onCreateConfirm($event)">-->
+        <!--</ng2-smart-table>-->
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <label>店铺:</label>
+                    <input type="text" class="search_input_duan" placeholder="店铺搜索" [(ngModel)]="searchItem_shopName">
+                    <label>满减面额:</label>
+                    <input type="text" class="search_input_duan" placeholder="满减面额搜索" [(ngModel)]="searchItem_reducePrice">
+                    <label>满减门槛:</label>
+                    <input type="text" class="search_input_duan" placeholder="满减门槛搜索" [(ngModel)]="searchItem_limitPrice">
+                    <label>申请人:</label>
+                    <input type="text" class="search_input_duan" placeholder="申请人搜索" [(ngModel)]="searchItem_applicant">
+                    <label>满减类型:</label>
+                    <select class=" search_select " style="width: 125px;background: #fff;margin-right: 40px!important;" [(ngModel)]="searchItem_reduceType">
+                        <option value='0'>全部</option>
+                        <option value='1'>店铺满减</option>
+                        <option value='2'>商品满减</option>
+                    </select>
+                    <label>破价确认:</label>
+                    <select class=" search_select " style="width: 125px;background: #fff;margin-right: 40px!important;" [(ngModel)]="searchItem_breakType">
+                        <option value='0'>全部</option>
+                        <option value='1'>是</option>
+                        <option value='2'>否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="search_box">
+                    <label>申请理由:</label>
+                    <input type="text" class="search_input_duan" placeholder="申请理由搜索" [(ngModel)]="searchItem_applicantReason">
+                    <label  style='width:80px'>起止时间:</label>
+                    <input type="date" class="search_select" style="margin-right:45px;" [(ngModel)]="searchItem_startTime">
+                    <label  style="margin:0 10px">至:</label>
+                    <input type="date" class="search_select" [(ngModel)]="searchItem_endTime" style="margin-right: 40px;!important;">
+                    <button class="search_btn" (click)="search()">查询</button>
+                    <button class="search_btn" (click)="reset()">重置</button>
+                    <div class="export-data"  style="position: absolute;right: 20px;top:70px;">
+                        <button class="btn btn-hero-primary "  (click)="viewData()">查看数据</button>
+                        <button class="btn btn-hero-primary "  (click)="export()">导出csv数据</button>
+                        <button class="btn btn-hero-primary" (click)="add()">添加新数据</button>
+                    </div>
+                </div>
+            </div>
+            <table cellspacing="0" class="modified">
+                <tr>
+                    <th>id</th>
+                    <th>店铺</th>
+                    <th>使用对象</th>
+                    <th>满减类型</th>
+                    <th>满减面额</th>
+                    <th>满减门槛</th>
+                    <th>破价确认</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>申请原因</th>
+                    <th>申请人</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let reduce of reduces">
+                    <td>{{reduce.id}}</td>
+                    <td>{{reduce.approveInfoDTO.shopName}}</td>
+                    <td [ngSwitch]="reduce.applyType">
+                        <span *ngSwitchCase="1">店铺</span>
+                        <span *ngSwitchCase="2">商品</span>
+                        <span *ngSwitchDefault>未知参数</span>
+                    </td>
+                    <td [ngSwitch]="reduce.applyType">
+                        <span *ngSwitchCase="1">店铺满减</span>
+                        <span *ngSwitchCase="2">商品满减</span>
+                        <span *ngSwitchDefault>未知参数</span>
+                    </td>
+                    <td>{{reduce.reducePrice}}</td>
+                    <td>{{reduce.limitPrice }}</td>
+                    <td [ngSwitch]="reduce.breakingPrice">
+                        <span *ngSwitchCase="1">是</span>
+                        <span *ngSwitchCase="2">否</span>
+                        <span *ngSwitchDefault>未知参数</span>
+                    </td>
+                    <td *ngIf="reduce.approveInfoDTO">{{reduce.startTime | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td *ngIf="reduce.approveInfoDTO">{{reduce.endTime | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td *ngIf="reduce.approveInfoDTO">{{reduce.approveInfoDTO.applyReason}}</td>
+                    <td *ngIf="reduce.approveInfoDTO">{{reduce.approveInfoDTO.applicant}}</td>
+                    <td>
+                        <span *ngIf="reduce.approveInfoDTO && reduce.approveInfoDTO.status == 1">待审批</span>
+                        <span *ngIf="reduce.approveInfoDTO && reduce.approveInfoDTO.status == 2">已通过</span>
+                        <span *ngIf="reduce.approveInfoDTO && reduce.approveInfoDTO.status == 3">已拒绝</span>
+                        <span *ngIf="reduce.approveInfoDTO && reduce.approveInfoDTO.status == 12">已完结</span>
+                        <span *ngIf="reduce.approveInfoDTO && (reduce.approveInfoDTO.status == 6 || reduce.approveInfoDTO.status == 9 || reduce.approveInfoDTO.status == 11)">已撤销</span>
+                    </td>
+                    <td>
+                        <button><i class="ion-edit" (click)="edit(reduce.id)"></i></button>
+                        <button><i class="ion-trash-a" (click)="delete(reduce.id)"></i></button>
+                        <button><i class="ion-clipboard" (click)="check(reduce.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="row justify-content-center" *ngIf="reduces">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                            [boundaryLinks]="true" (pageChange)="loadPage(page)">
+            </ngb-pagination>
+            <label class="totalElements">共{{totalElements}}条记录</label>
+            <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                <option value='10'>10条/页</option>
+                <option value='15'>15条/页</option>
+                <option value='20'>20条/页</option>
+                <option value='30'>30条/页</option>
+                <option value='50'>50条/页</option>
+            </select>
+        </div>
+    </nb-card-body>
+</nb-card>

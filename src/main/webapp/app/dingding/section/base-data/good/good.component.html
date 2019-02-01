@@ -1,0 +1,65 @@
+<nb-card>
+    <nb-card-header>
+        商品
+    </nb-card-header>
+
+    <nb-card-body>
+
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <input type="text" class="search_input" placeholder="请输入关键字查询" [(ngModel)]="searchItem">
+                    <button class="search_btn" (click)="search()">查询</button>
+                    <button class="search_btn" (click)="reLoadAll()">所有商品</button>
+                </div>
+                <a href="javascript:;" class="file" style="right: 180px;">选择文件上传
+                    <input type="file" name="" ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged()">
+                </a>
+                <button class="btn {{ settingsBtn[0].class }} btn-demo" (click)="add()">{{
+                    settingsBtn[0].buttonTitle}}
+                </button>
+            </div>
+            <table cellspacing="0">
+                <tr>
+                    <th>id</th>
+                    <th>所属店铺</th>
+                    <th>所属品牌</th>
+                    <th>商品名称</th>
+                    <th>商品ID</th>
+                    <th>商品数量</th>
+                    <th>商品价格</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let good of goods;">
+                    <td>{{good.id}}</td>
+                    <td></td>
+                    <td></td>
+                    <td>{{good.goodName}}</td>
+                    <td>{{good.goodId}}</td>
+                    <td><span *ngIf="good.number">{{good.number}}</span></td>
+                    <td><span *ngIf="good.price">{{good.price}}</span></td>
+                    <td>
+                        <button title="查看"><i class="ion-clipboard" (click)="check(good.id)"></i></button>
+                        <button title="编辑"><i class="ion-edit" (click)="edit(good.id)"></i></button>
+                        <button title="删除"><i class="ion-trash-a" (click)="delete(good.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="goods">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <label class="totalElements">共{{totalElements}}条记录</label>
+                <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                    <option value='10'>10条/页</option>
+                    <option value='15'>15条/页</option>
+                    <option value='20'>20条/页</option>
+                    <option value='30'>30条/页</option>
+                    <option value='50'>50条/页</option>
+                </select>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

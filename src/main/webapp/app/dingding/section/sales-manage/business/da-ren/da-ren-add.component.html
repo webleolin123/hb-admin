@@ -1,0 +1,177 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">创建或编辑达人</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body" *ngIf="daRen">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group"*ngIf="shops">
+            <label>选择店铺</label>
+            <select id="selectedShop" class="form-control" [(ngModel)]="selectedShopId" name="shopId"
+                    (change)="onSelectedShop($event)">
+                <option value="0">请选择</option>
+                <option value="" *ngFor="let shop of shops" value="{{shop.id}}">
+                    {{shop.shopName}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group"*ngIf="brands">
+            <label>选择品牌</label>
+            <select id="selectedBrand" class="form-control" [(ngModel)]="selectedBrandId" name="brandId"
+                    (change)="onSelectedBrand($event)">
+                <option value="0">请选择</option>
+                <option value="" *ngFor="let brand of brands" value="{{brand.id}}">
+                    {{brand.brandName}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group"*ngIf="goods">
+            <label>选择商品</label>
+            <select id="selectedGood" class="form-control" [(ngModel)]="selectedGoodId" name="goodId"
+                    (change)="onSelectedGood($event)">
+                <option value="0">请选择</option>
+                <option value="" *ngFor="let good of goods" value="{{good.id}}">
+                    {{good.goodName}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>选择费用类型</label>
+            <select id="selectedBusinessType" class="form-control" name="priceType"
+                    [(ngModel)]="daRen.priceType" (change)="onSelectedPriceType($event)">
+                <option value="0">请选择</option>
+                <option value="1">日费用</option>
+                <option value="2">月费用</option>
+                <option value="3">总费用</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>费用说明</label>
+            <input type="number" class="form-control" id='priceDesc' placeholder="请输入金额（单位：元）"
+                   [(ngModel)]="daRen.perPrice"
+                   name="perPrice" (change)="desc()" style="width: 90%;"/>
+            <span *ngIf="daRen.priceType == 1"
+                  style="float: right;position: relative;bottom: 35px;">元/日</span>
+            <span *ngIf="daRen.priceType == 2"
+                  style="float: right;position: relative;bottom: 35px;">元/月</span>
+            <span *ngIf="daRen.priceType == 3"
+                  style="float: right;position: relative;bottom: 35px;">元</span>
+        </div>
+        <div class="form-group">
+            <label>开始时间</label>
+            <input type="text" class="form-control" placeholder="请输入开始时间(格式：2018-05-01)"
+                   [(ngModel)]="daRen.startDate"
+                   name="startDate" (change)="chooseStartDate()"/>
+        </div>
+        <div class="form-group">
+            <label>结束时间</label>
+            <input type="text" class="form-control" placeholder="请输入开始时间(格式：2018-05-01)"
+                   [(ngModel)]="daRen.endDate"
+                   name="endDate" (change)="chooseEndDate()"/>
+        </div>
+        <div class="form-group">
+            <label>费用生成</label>
+            <span style="float: right;left: 0;color: #999;"
+                  *ngIf="daRen.priceType == 1">共{{iDays}}日，共{{companyPrice}}元</span>
+            <span style="float: right;left: 0;color: #999;"
+                  *ngIf="daRen.priceType == 2">共{{iMonth}}月，共{{companyPrice}}元</span>
+        </div>
+        <div class="form-group">
+            <label>是否厂家支持</label>
+            <select id="isSupportedByFactory" class="form-control" name="priceType"
+                    [(ngModel)]="daRen.isSupportedByFactory"
+                    (change)="onSelectedSupportedByFactory($event)">
+                <option value="2">请选择</option>
+                <option value="1">是</option>
+                <option value="0">否</option>
+            </select>
+        </div>
+        <div class="form-group" *ngIf="daRen.isSupportedByFactory == 1">
+            <label>费用说明</label>
+            <input type="number" class="form-control" id='priceDescByFactory' placeholder="请输入金额（单位：元）"
+                   [(ngModel)]="daRen.perPriceOfSupport"
+                   name="perPrice" (change)="descByFactory()" style="width: 90%;"/>
+            <span *ngIf="daRen.priceType == 1"
+                  style="float: right;position: relative;bottom: 35px;">元/日</span>
+            <span *ngIf="daRen.priceType == 2"
+                  style="float: right;position: relative;bottom: 35px;">元/月</span>
+        </div>
+        <div class="form-group" *ngIf="daRen.isSupportedByFactory == 1">
+            <label>费用生成</label>
+            <span style="float: right;left: 0;color: #999;"
+                  *ngIf="daRen.priceType == 1">共{{iDays}}日，共{{factoryPrice}}元</span>
+            <span style="float: right;left: 0;color: #999;"
+                  *ngIf="daRen.priceType == 2">共{{iMonth}}月，共{{factoryPrice}}元</span>
+        </div>
+        <div class="form-group">
+            <label>总费用</label>
+            <span style="float: right;left: 0;color: #999;">{{daRen.totalPrice}}</span>
+        </div>
+
+        <!--<div class="form-group">-->
+        <!--<label class="form-control-label">上传附件</label>-->
+        <!--<input type="file" ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged()"/>-->
+        <!--</div>-->
+
+        <div class="form-group">
+            <label>申请理由</label>
+            <input type="text" class="form-control" placeholder="请输入申请理由"
+                   [(ngModel)]="applyReason" name="applyReason"/>
+        </div>
+
+        <div class="form-group">
+            <label>选择默认审批人：</label><br>
+            <label>选择部门</label>
+            <select id="selectedDepartment" class="form-control" (change)="onSelectedDepartment()">
+                <option>请选择</option>
+                <option value="" *ngFor="let department of departments" value="{{department.id}}">
+                    {{department.name}}
+                </option>
+            </select>
+            <label>选择部门成员</label>
+            <select id="selectedDepartmentUser" class="form-control" (change)="onSelectedDepartmentUser()"
+                    *ngIf="departmentUsers !=null">
+                <option>请选择</option>
+                <option *ngFor="let departmentUser of departmentUsers" value="{{departmentUser.name}}"
+                        data-value="{{departmentUser.userId}}">
+                    {{departmentUser.name}}
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" readonly *ngIf="departmentUsers !=null">
+            <div *ngFor="let approver of selectedApproverList" style="padding-left: 20px;">
+                <span class="choosedApprover"
+                      (click)="removeFormSelectedApproverList(approver)">{{approver.dingName}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>选择默认抄送人：</label>
+            <label>选择部门</label>
+            <select id="selectedCopyToDepartment" class="form-control" (change)="onSelectedCopyToDepartment()">
+                <option>请选择</option>
+                <option value="" *ngFor="let department of departments" value="{{department.id}}">
+                    {{department.name}}
+                </option>
+            </select>
+            <label>选择部门成员</label>
+            <select id="selectedCopyToDepartmentUser" class="form-control"
+                    (change)="onSelectedCopyToDepartmentUser()"
+                    *ngIf="copyToDepartmentUsers !=null">
+                <option>请选择</option>
+                <option *ngFor="let copyToDepartmentUser of copyToDepartmentUsers"
+                        value="{{copyToDepartmentUser.name}}" data-value="{{copyToDepartmentUser.userId}}">
+                    {{copyToDepartmentUser.name}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()"><span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary"><span>保存</span>
+        </button>
+    </div>
+</form>

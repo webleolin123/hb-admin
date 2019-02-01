@@ -1,0 +1,33 @@
+<div class="header-container"
+     [class.left]="position === 'normal'"
+     [class.right]="position === 'inverse'">
+  <div class="logo-containter">
+    <a (click)="toggleSidebar()" href="#" class="navigation"><i class="nb-menu"></i></a>
+    <div class="logo" (click)="goToHome()">海邦<span>管理后台</span></div>
+  </div>
+    <!--切换主题的开关-->
+  <!--<ngx-theme-switcher></ngx-theme-switcher>-->
+</div>
+
+<nb-actions
+  size="medium"
+  class="header-container"
+  [class.right]="position === 'normal'"
+  [class.left]="position === 'inverse'">
+  <nb-action icon="nb-grid-b" class="toggle-layout" (click)="toggleSettings()"></nb-action>
+  <nb-action>
+    <nb-user [nbContextMenu]="userMenu" [name]="name" [picture]="user?.picture" *ngIf="user"></nb-user>
+  </nb-action>
+  <nb-action class="control-item" [nbContextMenu]="notification"  icon="nb-notifications">
+      <!--<span class="badge badge-danger" style="position: absolute;right: 6px;top: 0px;">50</span>-->
+  </nb-action>
+  <nb-action class="control-item" [nbContextMenu]="chatUs" icon="nb-email"></nb-action>
+  <nb-action class="control-item">
+    <nb-search type="rotate-layout" (click)="startSearch()"></nb-search>
+  </nb-action>
+</nb-actions>
+<style>
+    div.logo:hover{
+        cursor: pointer;
+    }
+</style>

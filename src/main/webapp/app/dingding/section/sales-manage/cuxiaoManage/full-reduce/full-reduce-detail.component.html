@@ -1,0 +1,130 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">满减详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" id="reduce_detail" *ngIf="reduce">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <div class="card-header">
+                    <span class="avatar">{{reduce.approveInfoDTO.applicant.substring(0, 3)}}</span>
+                    <p class="important">
+                        <span class="applicant">{{reduce.approveInfoDTO.applicant}}</span>&#x3000;
+                    </p>
+                    <p class="status status0" *ngIf="reduce.approveInfoDTO.status == 1">等待<span
+                        class="approvePersonnel">{{selectedApproveList}}</span>的审批</p>
+                    <p class="status status1" *ngIf="reduce.approveInfoDTO.status == 2">通过<span
+                        class="approvePersonnel">{{selectedApproveList}}</span>的审批</p>
+                    <p class="status status2" *ngIf="reduce.approveInfoDTO.status == 3"><span
+                        class="approvePersonnel">{{selectedApproveList}}</span>拒绝审批</p>
+                    <p class="status status2" *ngIf="reduce.approveInfoDTO.status == 12">
+                        <span class="approvePersonnel" style="color: #2d8ac7">已完结</span>
+                    </p>
+                </div>
+                <img src="../../../../../content/images/business_end.png" alt="" class="statusImg"
+                     *ngIf="reduce.approveInfoDTO.status == 12">
+                <img src="../../../../../content/images/SUCCESS.png" alt="" class="statusImg"
+                     *ngIf="reduce.approveInfoDTO.status == 2">
+                <img src="../../../../../content/images/FAIL.png" alt="" class="statusImg"
+                     *ngIf="reduce.approveInfoDTO.status == 3">
+                <img src="../../../../../content/images/UNDO.png" alt="" class="statusImg"
+                     *ngIf="reduce.approveInfoDTO.status == 6 || reduce.approveInfoDTO.status == 9 || reduce.approveInfoDTO.status == 11">
+                <div class="card-content">
+                    <p class="shop">
+                        <span>&#x3000;&#x3000;店铺</span>
+                        <span>{{reduce.approveInfoDTO.shopName}}</span>
+                    </p>
+                    <p class="brand">
+                        <span>&#x3000;&#x3000;使用对象</span>
+                        <span [ngSwitch]="reduce.applyType">
+                            <span *ngSwitchCase="1">店铺</span>
+                            <span *ngSwitchCase="2">商品</span>
+                              <span *ngSwitchDefault>未知参数</span>
+                        </span>
+                    </p>
+                    <p class="good">
+                        <span>&#x3000;&#x3000;满减类型</span>
+                        <span [ngSwitch]="reduce.applyType">
+                            <span *ngSwitchCase="1">店铺满减</span>
+                            <span *ngSwitchCase="2">商品满减</span>
+                             <span *ngSwitchDefault>未知参数</span>
+                        </span>
+                    </p>
+                    <p class="good" >
+                        <span>&#x3000;&#x3000;满减面额</span>
+                        <span>{{reduce.reducePrice}}</span>
+                    </p>
+                    <p class="good" >
+                        <span>&#x3000;&#x3000;满减门槛</span>
+                        <span>{{reduce.limitPrice}}</span>
+                    </p>
+                    <p class="good" >
+                        <span>&#x3000;&#x3000;破价确认</span>
+                        <span [ngSwitch]="reduce.breakingPrice">
+                            <span *ngSwitchCase="1">是</span>
+                            <span *ngSwitchCase="2">否</span>
+                            <span *ngSwitchDefault>未知参数</span>
+                        </span>
+                    </p>
+                    <p class="startDate">
+                        <span>&#x3000;&#x3000;开始时间</span><span>{{reduce.startTime | date:"yyyy/MM/dd HH:mm:ss"}}</span>
+                    </p>
+                    <p class="endDate"><span>&#x3000;&#x3000;结束时间</span><span>{{reduce.endTime | date:"yyyy/MM/dd HH:mm:ss"}}</span></p>
+                    <p class="totalPrice">
+                        <span>&#x3000;&#x3000;申请理由</span>
+                        <span *ngIf="reduce.approveInfoDTO.applyReason" [class.applyReason]="reduce.approveInfoDTO.applyReason.length>20">{{reduce.approveInfoDTO.applyReason}}</span>
+                        <span *ngIf="!reduce.approveInfoDTO.applyReason">无</span>
+                    </p>
+                    <!--<div class="completeTime"  *ngIf="reduce.approveInfoDTO.status == 12">-->
+                        <!--<p>-->
+                          <!--<span>&#x3000;&#x3000;<b style=" background-color: dodgerblue;width: 20px;height: 60px;display: inline-block"></b>-->
+                            <!--&#x3000;&#x3000;<span style="color: #2d8ac7">完成时间</span>-->
+                        <!--</span>-->
+                        <!--</p>-->
+                        <!--<p class="endDate">-->
+                            <!--<span>&#x3000;&#x3000;结束时间</span>-->
+                            <!--<span style="color: #2d8ac7" *ngIf="reduce.approveInfoDTO.completeDate">{{reduce.approveInfoDTO.completeDate | date:"yyyy/MM/dd"}}</span>-->
+                        <!--</p>-->
+                    <!--</div>-->
+                </div>
+            </div>
+            <div class="list-block" style="margin-top: 16px;">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i>
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-title label">抄送人</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="carbonCopy-box choose-box">
+                        <div *ngFor="let copyTo of selectedCopyToList" style="display: inline-block;">
+                            <a href="javascript:;"
+                               class="choosed"><span>{{copyTo.dingName.substring(0, 3)}}</span><br><label>{{copyTo.dingName.substring(0,3)}}</label></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block carboncopy-box" style="margin-bottom: 70px;" *ngIf="actionProcesses">
+                <ul>
+                    <li class="item-content" *ngFor="let action of actionProcesses">
+                        <div class="item-inner">
+                            <img src="../../../../../content/images/shop_icon.png" alt="">
+                            <span class="applicant">{{action.actor}}</span>
+                            <span>{{action.actionDesc}}</span>
+                            <!--<span class="apply-time">{{action.actionTime.substring(5, 7)}}.{{action.actionTime.substring(8, 10)}} {{action.actionTime.substring(11, 16)}}</span>-->
+                            <span class="apply-time">{{timestampToTime(action.actionTime)}}</span>
+                            <p class="reply" *ngIf="action && action.remark!='null' && action.remark!=null"
+                               style="font-size: 16px;color: #191f25;margin-left: 50px;margin-bottom: 0;">
+                                {{action.remark}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

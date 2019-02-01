@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">规则详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" id="zhiTongChe_detail" *ngIf="helpRoles">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <div class="card-content">
+                    <p class="shop"><span>&#x3000;&#x3000;模块</span><span
+                        *ngIf="helpRoles.businessType == 1">直通车</span><span
+                        *ngIf="helpRoles.businessType == 2">会议</span><span
+                        *ngIf="helpRoles.businessType == 3">视觉</span><span
+                        *ngIf="helpRoles.businessType == 4">钻展</span><span
+                        *ngIf="helpRoles.businessType == 5">达人</span><span
+                        *ngIf="helpRoles.businessType == 6">淘客</span><span
+                        *ngIf="helpRoles.businessType == 7">短信</span></p>
+                    <p class="brand"><span>&#x3000;&#x3000;问题</span><span>{{helpRoles.question }}</span></p>
+                    <div class="supportedByFactory" [innerHTML]="bypassSecurityTrustHtml(Base64Decode(helpRoles.answerblob))"></div>
+                    <p class="startDate"><span>有效日期</span><span>{{helpRoles.validityPeriod | date: 'yyyy-MM-dd'}}</span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

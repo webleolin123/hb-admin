@@ -1,0 +1,124 @@
+<nb-card>
+    <nb-card-header>
+        <h4>{{detailTitle}}提交详情</h4>
+        <button type="button" class="close hand" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </nb-card-header>
+    <nb-card-body>
+        <div id="content">
+            <div class="row">
+                <span *ngIf="!isBusiness">{{detailName}}</span>
+            </div>
+            <table cellspacing="0" class="modified" *ngIf="detailType=='business'" style="table-layout:auto">
+                    <tr>
+                        <td>申请人</td>
+                        <td>提交商品数</td>
+                        <td>申请费用</td>
+                    </tr>
+                <ng-container *ngFor="let business of detailList;let i=index;">
+                    <tr>
+                        <td (click)="showDetail(business)">
+                                <span style="display: inline-block;width: 160px;padding-left: 25px;text-align: left;">
+                                    <img src='../../../content/images/suo.png' *ngIf="!business.isShow">
+                                    <img src='../../../content/images/shen.png' *ngIf="business.isShow">
+                                    <span>{{business.name}}</span>
+                                </span>
+                        </td>
+                        <td>{{business.number}}</td>
+                        <td>¥{{business.money}}</td>
+                    </tr>
+                    <ng-container *ngFor="let list of business.list">
+                        <tr *ngIf="business.list&&business.isShow">
+                            <td colspan="2">
+                                <span>{{list.goodName}}</span>
+                                <span>({{list.totalNumber}})</span>
+                            </td>
+                            <td>¥{{list.totalApproveFee}}</td>
+                        </tr>
+                        <!--<tr *ngIf="business.isShow&&!business.list">-->
+                            <!--<td colspan="3">暂无数据</td>-->
+                        <!--</tr>-->
+                    </ng-container>
+                </ng-container>
+            </table>
+            <table cellspacing="0" class="modified" *ngIf="detailType=='goods'" style="table-layout:auto">
+                        <tr>
+                            <td>申请人</td>
+                            <td>申请业务数</td>
+                            <td>申请费用</td>
+                        </tr>
+                <ng-container *ngFor="let goods of detailList;let i=index;">
+                        <tr>
+                            <td (click)="showDetail(goods)">
+                                <span style="display: inline-block;width: 160px;padding-left: 25px;text-align: left;">
+                                    <img src='../../../content/images/suo.png' *ngIf="!goods.isShow">
+                                    <img src='../../../content/images/shen.png' *ngIf="goods.isShow">
+                                    <span>{{goods.name}}</span>
+                                </span>
+                            </td>
+                            <td>{{goods.number}}</td>
+                            <td>¥{{goods.money}}</td>
+                        </tr>
+                    <ng-container *ngFor="let list of goods.list">
+                        <tr *ngIf="goods.list&&goods.isShow">
+                            <td colspan="2">
+                                <span>{{list.moduleName}}</span>
+                                <span>({{list.totalNumber}})</span>
+                            </td>
+                            <td>¥{{list.totalApproveFee}}</td>
+                        </tr>
+                        <!--<tr *ngIf="goods.isShow&&!goods.list">-->
+                            <!--<td colspan="3">暂无数据</td>-->
+                        <!--</tr>-->
+                    </ng-container>
+                </ng-container>
+            </table>
+            <table cellspacing="0" class="modified" *ngIf="detailType=='person'" style="table-layout:auto">
+                        <tr>
+                            <td>业务名称</td>
+                            <td>提交申请数</td>
+                            <td>申请费用</td>
+                        </tr>
+                <ng-container  *ngFor="let person of detailList;let i=index;">
+                        <tr>
+                            <td (click)="showDetail(person)">
+                               <span style="display: inline-block;width: 160px;padding-left: 25px;text-align: left;">
+                                    <img src='../../../content/images/suo.png' *ngIf="!person.isShow">
+                                    <img src='../../../content/images/shen.png' *ngIf="person.isShow">
+                                    <span>{{person.name}}</span>
+                                </span>
+                            </td>
+                            <td>{{person.number}}</td>
+                            <td>¥{{person.money}}</td>
+                        </tr>
+                    <ng-container *ngFor="let list of person.list">
+                        <tr *ngIf="person.list&&person.isShow">
+                            <td colspan="2">
+                                <span>{{list.goodName}}</span>
+                                <span>({{list.totalNumber}})</span>
+                            </td>
+                            <td>¥{{list.totalApproveFee}}</td>
+                        </tr>
+                        <!--<tr *ngIf="person.isShow&&!person.list">-->
+                            <!--<td colspan="3">暂无数据</td>-->
+                        <!--</tr>-->
+                    </ng-container>
+                </ng-container>
+            </table>
+        </div>
+        <div class="row justify-content-center" *ngIf="detailList">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                            [boundaryLinks]="true" (pageChange)="loadPage(page)">
+            </ngb-pagination>
+            <label class="totalElements">共{{totalElements}}条记录</label>
+            <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                <option value='10'>10条/页</option>
+                <option value='15'>15条/页</option>
+                <option value='20'>20条/页</option>
+                <option value='30'>30条/页</option>
+                <option value='50'>50条/页</option>
+            </select>
+        </div>
+    </nb-card-body>
+</nb-card>

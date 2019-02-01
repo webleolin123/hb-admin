@@ -1,0 +1,171 @@
+<nb-card>
+    <nb-card-header>
+        消息中心
+    </nb-card-header>
+    <nb-card-header style="padding: 0;height: 63px;position:relative;">
+        <div class="header">
+            <ul>
+                <li (click)="checkList(1)"><a [class.active]="tabStatus == 1" href="javascript:;">系统</a></li>
+                <li (click)="checkList(2)"><a [class.active]="tabStatus == 2" href="javascript:;">公告</a></li>
+                <li (click)="checkList(3)"><a [class.active]="tabStatus == 3" href="javascript:;">通知</a></li>
+            </ul>
+        </div>
+        <div class="row" *ngIf="tabStatus == 2">
+            <div class="export-data">
+                <button class="btn-primary" id="exportBtn" (click)="publish()">发布新公告</button>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+        <div id="content">
+            <!--系统-->
+            <div *ngIf="tabStatus == 1">
+              <table cellspacing="0" class="modified">
+                    <tr>
+                        <th class="text-left" style="border-right: none;"><input type="checkbox"
+                             style="margin-right: 10px;position: relative;top: 2px;"
+                             name="selectAll" [(ngModel)]="selectAll"
+                             [checked]="selectAll"
+                             (change)="selectM()">全选
+                        </th>
+                        <th style="width: 300px;border-right: none;"></th>
+                        <th style="width: 220px;">
+                            <button (click)="deleteSelected()" style="font-size: 12px;color: #575958;">删除选择</button>
+                        </th>
+                    </tr>
+                    <tr *ngFor="let notification of notifications;">
+                        <td>
+                            <input type="checkbox" style="float: left;" name="appraiseId" [(ngModel)]="notification.checked"
+                                   (change)="selectN()">
+                            {{notification.content}}
+                        </td>
+                        <td></td>
+                        <td>
+                            <button title="删除"><i class="ion-trash-a" (click)="delete(notification.id)"></i></button>
+                        </td>
+                    </tr>
+                </table>
+              <div *ngIf="notifications">
+                    <div class="row justify-content-center">
+                        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                        [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                        </ngb-pagination>
+                        <label class="totalElements">共{{totalElements}}条记录</label>
+                        <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                            <option value='10'>10条/页</option>
+                            <option value='15'>15条/页</option>
+                            <option value='20'>20条/页</option>
+                            <option value='30'>30条/页</option>
+                            <option value='50'>50条/页</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--公告-->
+            <div *ngIf="tabStatus == 2">
+                <table cellspacing="0" class="modified">
+                    <tr>
+                        <th>id</th>
+                        <th>标题</th>
+                        <th>内容</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr *ngFor="let notification of notifications;">
+                        <td>{{notification.id}}</td>
+                        <td>{{notification.title}}</td>
+                        <td>{{notification.content}}</td>
+                        <td>{{notification.publishTime | date:"yyyy/MM/dd HH:mm:ss"}}</td>
+                        <td>
+                            <button title="编辑"><i class="ion-edit" (click)="edit(notification.id)"></i></button>
+                            <button title="删除"><i class="ion-trash-a" (click)="delete(notification.id)"></i></button>
+                            <button title="查看详情"><i class="ion-ios-eye-outline" (click)="check(notification.id)"></i></button>
+                        </td>
+                    </tr>
+                </table>
+                <div *ngIf="notifications">
+                    <div class="row justify-content-center">
+                        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                        [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+                    </div>
+                </div>
+            </div>
+
+            <!--通知-->
+            <div *ngIf="tabStatus == 3">
+                <table cellspacing="0" class="modified">
+                    <tr>
+                        <th>id</th>
+                        <th>通知类型</th>
+                        <th>通知内容</th>
+                        <th>通知接收人</th>
+                        <th>时间</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr *ngFor="let notification of notifications;">
+                        <td>{{notification.id}}</td>
+                        <td>
+                            <span *ngIf="notification.type == 1">日通知</span>
+                            <span *ngIf="notification.type == 2">周通知</span>
+                        </td>
+                        <td>{{notification.content}}</td>
+                        <td>{{notification.receiver}}</td>
+                        <td>{{notification.createdTime | date:"yyyy/MM/dd HH:mm"}}</td>
+                        <td>
+                            <button><i class="ion-trash-a" title="删除" (click)="delete(notification.id)"></i></button>
+                            <button><i class="ion-clipboard" title="查看" (click)="check(notification.id)"></i></button>
+                        </td>
+                    </tr>
+                </table>
+                <div *ngIf="notifications">
+                    <div class="row justify-content-center">
+                        <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                        [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+<style>
+    div.header ul {
+        list-style: none;
+        padding-left: 60px;
+        line-height: 63px;
+    }
+
+    div.header ul li {
+        float: left;
+        margin-right: 56px;
+    }
+
+    div.header ul li a {
+        font-size: 14px;
+        color: #2a2a2a;
+        display: inline-block;
+        width: 34px;
+        height: 61px;
+        text-decoration: none;
+    }
+
+    div.header ul li a.active {
+        border-bottom: 4px solid #5be1bd;
+    }
+
+    div.row div.export-data button {
+        top: 20px;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 6px;
+        padding: 7px 14px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+        position: absolute;
+        right: 20px;
+    }
+</style>

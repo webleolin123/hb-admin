@@ -1,0 +1,85 @@
+<nb-card>
+    <nb-card-header>
+        模块申请
+    </nb-card-header>
+    <nb-card-body>
+        <!--<toaster-container [toasterconfig]="config"></toaster-container>-->
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <label>模块：</label>
+                    <input type="text" class="search_input" placeholder="请输入模块名称" [(ngModel)]="searchItem"
+                           style="margin-right: 30px;">
+                    <select name="searchType" [(ngModel)]="status" class="search_select"
+                            style="margin-left: 0;margin-right: 20px;">
+                        <option value="1">已通过</option>
+                        <option value="0">已结束</option>
+                    </select>
+                    <button class="search_btn" (click)="search()">查询</button>
+                </div>
+                <br>
+                <div class="tabs">
+                    <ul>
+                        <li class="active">全部（8）</li>
+                        <li>产品管理（4）</li>
+                        <li>推广管理（3）</li>
+                        <li>促销管理（1）</li>
+                        <li>活动管理（0）</li>
+                    </ul>
+                </div>
+                <div class="choose_box">
+                    <input type="checkbox" name=""><label>价格&#x3000;&#x3000;</label>
+                    <input type="checkbox" name=""><label>预售&#x3000;&#x3000;</label>
+                    <input type="checkbox" name=""><label>上下架&#x3000;</label>
+                    <input type="checkbox" name=""><label>库存调拨</label>
+                </div>
+            </div>
+            <table cellspacing="0" class="modified">
+                <tr>
+                    <th>ID</th>
+                    <th>模块名称</th>
+                    <th>申请时间</th>
+                    <th>申请人</th>
+                    <th>状态</th>
+                    <th>详情查看</th>
+                </tr>
+                <tr *ngFor="let module of modules;">
+                    <td>{{module.id}}</td>
+                    <td>{{module.module}}</td>
+                    <td>{{module.applyTime}}</td>
+                    <td>{{module.applicant}}</td>
+                    <td>
+                        <span *ngIf="module.status == 1">已通过</span>
+                        <span *ngIf="module.status == 0">已结束</span>
+                    </td>
+                    <td>
+                        <button title="查看"><i class="ion-ios-eye-outline" (click)="checkModule(module.id)"></i></button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td><button (click)="checkModule()">查看</button></td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="modules">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <!--<label class="totalElements">共{{totalElements}}条记录</label>-->
+                <!--<select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">-->
+                    <!--<option value='10'>10条/页</option>-->
+                    <!--<option value='15'>15条/页</option>-->
+                    <!--<option value='20'>20条/页</option>-->
+                    <!--<option value='30'>30条/页</option>-->
+                    <!--<option value='50'>50条/页</option>-->
+                <!--</select>-->
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

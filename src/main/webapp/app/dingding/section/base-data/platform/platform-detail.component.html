@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">平台详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" id="zhiTongChe_detail" *ngIf="platform">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <div class="card-content">
+                    <p class="shop"><span>&#x3000;平台id</span><span>{{platform.id}}</span></p>
+                    <p class="brand"><span>平台名称</span><span>{{platform.platformName}}</span></p>
+                    <p class="good"><span>商品前缀</span><span>{{platform.preLink}}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

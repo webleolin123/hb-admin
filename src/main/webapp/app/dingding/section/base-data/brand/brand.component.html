@@ -1,0 +1,64 @@
+<nb-card>
+    <nb-card-header>
+        品牌
+    </nb-card-header>
+
+    <nb-card-body>
+        <!--<ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"-->
+        <!--(editConfirm)="onSaveConfirm($event)" (createConfirm)="onCreateConfirm($event)">-->
+        <!--</ng2-smart-table>-->
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <input type="text" class="search_input" placeholder="请输入关键字查询">
+                    <button class="search_btn">查询</button>
+                </div>
+                <button class="btn {{ settingsBtn[0].class }} btn-demo" (click)="add()">{{
+                    settingsBtn[0].buttonTitle}}
+                </button>
+            </div>
+            <table cellspacing="0">
+                <tr>
+                    <th>id</th>
+                    <th>品牌名称</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let brand of brands;">
+                    <td>{{brand.id}}</td>
+                    <td>{{brand.brandName}}</td>
+                    <td>
+                        <span *ngIf="brand.status == 1">正常</span>
+                        <span *ngIf="brand.status == 0">删除</span>
+                    </td>
+                    <td>
+                        <button title="查看商品"><i class="ion-ios-eye-outline" (click)="checkGood(brand.id)"></i></button>
+                        <button title="编辑"><i class="ion-edit" (click)="edit(brand.id)"></i></button>
+                        <button title="删除"><i class="ion-trash-a" (click)="delete(brand.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="brands">
+            <!--<div class="row justify-content-center">-->
+                <!--<jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>-->
+            <!--</div>-->
+            <!--<div class="row justify-content-center">-->
+            <!--<ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="10" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>-->
+            <!--</div>-->
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <label class="totalElements">共{{totalElements}}条记录</label>
+                <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                    <option value='10'>10条/页</option>
+                    <option value='15'>15条/页</option>
+                    <option value='20'>20条/页</option>
+                    <option value='30'>30条/页</option>
+                    <option value='50'>50条/页</option>
+                </select>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

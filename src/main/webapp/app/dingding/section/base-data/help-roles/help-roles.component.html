@@ -1,0 +1,75 @@
+<nb-card>
+    <nb-card-header>
+        规则
+    </nb-card-header>
+    <nb-card-body>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <input type="text" class="search_input" placeholder="请输入关键字查询">
+                    <button class="search_btn">查询</button>
+                </div>
+                <button class="btn {{ settingsBtn[0].class }} btn-demo" (click)="add()">{{
+                    settingsBtn[0].buttonTitle}}
+                </button>
+            </div>
+            <table cellspacing="0">
+                <tr>
+                    <th>id</th>
+                    <th>模块</th>
+                    <th>问题</th>
+                    <th>答案</th>
+                    <th>有效期</th>
+                    <th>是否需要通知</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let helpRoles of helpRoleses;">
+                    <td>{{helpRoles.id}}</td>
+                    <td>
+                        <span *ngIf="helpRoles.businessType == 0">全部</span>
+                        <span *ngIf="helpRoles.businessType == 1">直通车</span>
+                        <span *ngIf="helpRoles.businessType == 2">会议</span>
+                        <span *ngIf="helpRoles.businessType == 3">视觉</span>
+                        <span *ngIf="helpRoles.businessType == 4">钻展</span>
+                        <span *ngIf="helpRoles.businessType == 5">达人</span>
+                        <span *ngIf="helpRoles.businessType == 6">淘客</span>
+                        <span *ngIf="helpRoles.businessType == 7">短信</span>
+                    </td>
+                    <td>{{helpRoles.question}}</td>
+                    <td>{{helpRoles.answerStr.substring(0, 10)}}...</td>
+                    <td>{{helpRoles.validityPeriod | date: 'yyyy-MM-dd'}}</td>
+                    <td>
+                        <span *ngIf="helpRoles.isNeedToNotify == 0">否</span>
+                        <span *ngIf="helpRoles.isNeedToNotify == 1">是</span>
+                    </td>
+                    <td>
+                        <span *ngIf="helpRoles.status == 1">正常</span>
+                        <span *ngIf="helpRoles.status == 0">删除</span>
+                    </td>
+                    <td>
+                        <button title="查看"><i class="ion-clipboard" (click)="check(helpRoles.id)"></i></button>
+                        <button title="编辑"><i class="ion-edit" (click)="edit(helpRoles.id)"></i></button>
+                        <button title="删除"><i class="ion-trash-a" (click)="delete(helpRoles.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="helpRoleses">
+            <div class="row justify-content-center">
+                <!--<ngb-pagination [collectionSize]="100" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>-->
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <label class="totalElements">共{{totalElements}}条记录</label>
+                <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                    <option value='10'>10条/页</option>
+                    <option value='15'>15条/页</option>
+                    <option value='20'>20条/页</option>
+                    <option value='30'>30条/页</option>
+                    <option value='50'>50条/页</option>
+                </select>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

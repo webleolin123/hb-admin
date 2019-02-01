@@ -1,0 +1,83 @@
+<nb-card>
+    <nb-card-header>
+        工资条
+    </nb-card-header>
+    <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <div class="search_box">
+                        <div>
+                            <label >月份选择:</label>
+                            <select class="inputBorder" [(ngModel)]="yearValue">
+                                <option value="0">请选择</option>
+                                <option *ngFor="let year of yearChoiceArr" [value]="year" >{{year}}</option>
+                            </select>
+                            <label >年</label>
+                            <select class="inputBorder" [(ngModel)]="monthValue">
+                                <option value="0">请选择</option>
+                                <option *ngFor="let month of monthChoiceArr"  [value]="month">{{month}}</option>
+                            </select>
+                            <label>月</label>
+                            <button class="search_btn" (click)="search()">查询</button>
+                        </div>
+                    </div>
+                </div>
+            <div class="row" style="margin-bottom: 0;">
+                        <div class="salary" style="position: absolute;right: 175px;top:20px;">
+                            <button class="btn {{ settingsBtn[1].class }} btn-demo" style="right: 10px!important;width: 152px!important;font-size: 16px;!important">
+                                工资发放通知导入
+                                <input multiple type="file" name="" ng2FileSelect [uploader]="uploader"
+                                       (change)="selectedFileOnChanged()">
+                            </button>
+                        </div>
+                        <div class="department" style="position: absolute;right: 20px;top:20px;">
+                            <button class="btn {{ settingsBtn[0].class }} btn-demo" style="right: 0!important;;width: 152px!important;;font-size: 16px;!important;" (click)="export()">
+                                组织架构信息导出
+                            </button>
+                    </div>
+                    </div>
+        </div>
+            <table cellspacing="0">
+                <tr>
+                    <th>id</th>
+                    <th>工资发放通知导入时间</th>
+                    <th>工资月份</th>
+                    <th>状态</th>
+                    <th>详情查看</th>
+                </tr>
+                <tr *ngFor="let salary of salaryInfo;">
+                    <td>{{salary.id}}</td>
+                    <td>{{salary.createDate | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+                    <td>{{salary.month}}</td>
+                    <td [ngSwitch]="salary.status">
+                        <span *ngSwitchCase="1">上传中</span>
+                        <span *ngSwitchCase="2">操作成功</span>
+                        <span *ngSwitchCase="3">部分成功</span>
+                        <span *ngSwitchCase="4">完全失败</span>
+                        <span *ngSwitchDefault>未知参数</span>
+                    </td>
+                    <td>
+                        <button title="查看详情" class="btn myBtn-view" (click)="showDetail(salary.keyCode)">记录查看</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="salaryInfo">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="2000" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <label class="totalElements">共{{totalElements}}条记录</label>
+                <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                    <option value='10'>10条/页</option>
+                    <option value='15'>15条/页</option>
+                    <option value='20'>20条/页</option>
+                    <option value='30'>30条/页</option>
+                    <option value='50'>50条/页</option>
+                </select>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

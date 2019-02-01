@@ -1,0 +1,81 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">
+            创建或编辑用户</h4>
+        <button type="button" class="close hand" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body" *ngIf="user">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!user.id">
+            <label>ID</label>
+            <input type="text" class="form-control" name="id"
+                   [(ngModel)]="user.id" readonly>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label">用户帐号</label>
+            <input type="text" class="form-control" name="login" #loginInput="ngModel" required [readonly]="user.id != null"
+                   [(ngModel)]="user.login" minlength="1" maxlength="50" pattern="^[_'.@A-Za-z0-9-]*$" (change)="inputChange()">
+        </div>
+        <div class="form-group" *ngIf="user.id == null">
+            <label class="form-control-label">用户密码</label>
+            <input type="password" class="form-control" name="password" #passwordInput="ngModel" required
+                   [(ngModel)]="user.password">
+        </div>
+        <div class="form-group">
+            <label class="form-control-label">昵称</label>
+            <input type="text" class="form-control" name="nickname" #nicknameInput="ngModel"
+                   [(ngModel)]="user.nickname">
+        </div>
+        <div class="form-group">
+            <label class="form-control-label">手机号码</label>
+            <input type="tel" class="form-control" name="mobilePhone" #mobilePhoneInput="ngModel"
+                   [(ngModel)]="user.mobilePhone">
+        </div>
+        <div class="form-group">
+            <label class="form-control-label">邮箱</label>
+            <input type="email" class="form-control" name="email" #emailInput="ngModel"
+                   [(ngModel)]="user.email">
+        </div>
+        <!--<div class="form-group">-->
+            <!--<label class="form-control-label">地址</label>-->
+            <!--<input type="text" class="form-control" name="address" #addressInput="ngModel"-->
+                   <!--[(ngModel)]="user.address">-->
+        <!--</div>-->
+        <div class="form-group">
+            <label>性别</label>
+            <select class="form-control" name="sex" [(ngModel)]="user.sex">
+                <option value="0">请选择</option>
+                <option value="1">男</option>
+                <option value="2">女</option>
+            </select>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label" for="activated">
+                <input class="form-check-input" [disabled]="user.id === null" type="checkbox" id="activated"
+                       name="activated" [(ngModel)]="user.activated">
+                <span>激活</span>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>角色</label>
+            <select class="form-control" multiple name="authority" [(ngModel)]="authoritiesBox">
+                <option *ngFor="let authority of authorities" [value]="authority">{{authority}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label">备注</label>
+            <input type="text" class="form-control" name="remarks" #remarksInput="ngModel"
+                   [(ngModel)]="user.remarks">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary hand" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>取消</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary hand">
+            <span class="fa fa-floppy-o"></span>&nbsp;<span>保存</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,91 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="myUserLabel">短信详情</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="clear()">&times;
+    </button>
+</div>
+<div class="modal-body">
+    <div class="page" id="zhiTongChe_detail" *ngIf="message">
+        <div class="content">
+            <div class="card" style="margin: 0;border-bottom: none;">
+                <div class="card-header">
+                    <span class="avatar">{{message.approveInfoDTO.applicant.substring(0, 3)}}</span>
+                    <p class="important">
+                        <span class="applicant">{{message.approveInfoDTO.applicant}}</span>&#x3000;
+                    </p>
+                    <p class="status status0" *ngIf="message.approveInfoDTO.status == 1">等待<span
+                        class="approvePersonnel">{{selectedApproveList}}</span>的审批</p>
+                    <p class="status status1" *ngIf="message.approveInfoDTO.status == 2">通过<span
+                        class="approvePersonnel">{{selectedApproveList}}</span>的审批</p>
+                    <p class="status status2" *ngIf="message.approveInfoDTO.status == 3"><span
+                        class="approvePersonnel">{{selectedApproveList}}</span>拒绝审批</p>
+                    <p class="status status2" *ngIf="message.approveInfoDTO.status == 12">
+                        <span class="approvePersonnel" style="color: #2d8ac7">已完结</span>
+                    </p>
+                </div>
+                <img src="../../../../../content/images/business_end.png" alt="" class="statusImg"
+                     *ngIf="message.approveInfoDTO.status == 12">
+                <img src="../../../../../content/images/SUCCESS.png" alt="" class="statusImg"
+                     *ngIf="message.approveInfoDTO.status == 2">
+                <img src="../../../../../content/images/FAIL.png" alt="" class="statusImg"
+                     *ngIf="message.approveInfoDTO.status == 3">
+                <img src="../../../../../content/images/UNDO.png" alt="" class="statusImg"
+                     *ngIf="message.approveInfoDTO.status == 6 || message.approveInfoDTO.status == 9 || message.approveInfoDTO.status == 11">
+                <div class="card-content">
+                    <p class="priceType"><span>短信类型</span><span *ngIf="message.smsType == 1">商品短信</span><span
+                        *ngIf="message.smsType == 2">活动短信</span></p>
+                    <p class="shop" *ngIf="message.shopName!=null"><span>&#x3000;&#x3000;店铺</span><span>{{message.shopName}}</span>
+                    </p>
+                    <p class="brand" *ngIf="message.brandName!=null"><span>&#x3000;&#x3000;品牌</span><span>{{message.brandName}}</span>
+                    </p>
+                    <p class="good" *ngIf="message.goodName!=null"><span>&#x3000;&#x3000;商品</span><span
+                        [class.goodName]="message.goodName.length>20">{{message.goodName}}</span></p>
+                    <p class="startDate"><span>推送数量</span><span>{{message.pushNumber}}</span></p>
+                    <p class="startDate"><span>推送事由</span><span *ngIf="message.pushCause == 1">单品活动</span><span
+                        *ngIf="message.pushCause == 2">好评活动</span><span *ngIf="message.pushCause == 3">催收活动</span><span
+                        *ngIf="message.pushCause == 4">店铺活动</span><span *ngIf="message.pushCause == 5">其他</span></p>
+                    <p class="startDate"><span>开始时间</span><span>{{message.startDate}}</span></p>
+                    <p class="endDate"><span>结束时间</span><span>{{message.endDate}}</span></p>
+                    <p class="totalPrice"><span>短信内容</span><span *ngIf="message.smsContent!=null"
+                                                                 [class.applyReason]="message.smsContent.length>20">{{message.smsContent}}</span><span
+                        *ngIf="message.smsContent==null">无</span></p>
+                </div>
+            </div>
+
+            <div class="list-block" style="margin-top: 16px;">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-media"><i class="icon icon-form-email"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title label">抄送人</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="carbonCopy-box choose-box">
+                        <div *ngFor="let copyTo of selectedCopyToList" style="display: inline-block;">
+                            <a href="javascript:;"
+                               class="choosed"><span>{{copyTo.dingName.substring(0, 3)}}</span><br><label>{{copyTo.dingName.substring(0,3)}}</label></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="list-block carboncopy-box" style="margin-bottom: 70px;" *ngIf="actionProcesses">
+                <ul>
+                    <li class="item-content" *ngFor="let action of actionProcesses">
+                        <div class="item-inner">
+                            <img src="../../../../../content/images/shop_icon.png" alt="">
+                            <span class="applicant">{{action.actor}}</span>
+                            <span>{{action.actionDesc}}</span>
+                            <!--<span class="apply-time">{{action.actionTime.substring(5, 7)}}.{{action.actionTime.substring(8, 10)}} {{action.actionTime.substring(11, 16)}}</span>-->
+                            <span class="apply-time">{{timestampToTime(action.actionTime)}}</span>
+                            <p class="reply" *ngIf="action && action.remark!='null' && action.remark!=null"
+                               style="font-size: 16px;color: #191f25;margin-left: 50px;margin-bottom: 0;">
+                                {{action.remark}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

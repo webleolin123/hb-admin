@@ -1,0 +1,71 @@
+<nb-card>
+    <nb-card-header>
+        帐号设置
+    </nb-card-header>
+    <toaster-container [toasterconfig]="config"></toaster-container>
+    <nb-card-body style="padding-left: 40px;">
+        <button class="tab_button active">个人资料</button>
+        <!--<button class="tab_button">修改密码</button>-->
+        <div class="user-data">
+            <div class="imgBox">
+                <div class="avatar">
+                    <div class="inner">
+                        <img src="../../../../content/images/defaultAvatar.png" *ngIf="imageMd5==null && (account.imageUrl == null || account.imageUrl == '')" alt=""/>
+                        <img src="{{baseImageUrl + account.imageUrl.substring(0, 32)}}"  *ngIf="account.imageUrl" alt=""/>
+                    </div>
+                </div>
+                <div class="uploadFile">
+                    <p>选择喜欢的图片作为您的头像</p>
+                    <a href="javascript:;" class="file"><img src="../../../../content/images/uploadImg.png" style="margin-right: 5px;position: relative;top: -2px;" alt=""/>选择文件
+                        <input type="file" name="" id="fileupload" ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged()">
+                    </a>
+                    <br /><span>可以上传jpg,png格式图片，且文件小于2M</span>
+                </div>
+            </div>
+            <div class="detail">
+                <form>
+                    <div class="nickname label">
+                        <label>&#x3000;帐号：</label><span>{{account.login}}</span>
+                    </div>
+                    <div class="nickname label">
+                        <label>&#x3000;角色：</label><span *ngFor="let role of account.authorities" class="role">{{role}}</span>
+                    </div>
+                    <div class="nickname label">
+                        <label>&#x3000;昵称：</label>
+                        <input type="text" value="" placeholder="昵称" name="nickname" [(ngModel)]="account.nickname"/>
+                    </div>
+                    <div class="sex">
+                        <label>&#x3000;性别：</label>
+                        <label><input name="sex" type="radio" value="2" id="male" [checked]="account.sex == 2"/><span>男</span> </label>
+                        <label><input name="sex" type="radio" value="1" id="female" [checked]="account.sex == 1"/><span>女</span></label>
+                        <label><input name="sex" type="radio" value="0" id="secret" [checked]="account.sex == null"/><span>保密</span></label>
+                    </div>
+                    <div class="nickname label">
+                        <label>手机号：</label>
+                        <input type="tel" value="" placeholder="手机号码" maxlength="11" name="mobilePhone" [(ngModel)]="account.mobilePhone"/>
+                    </div>
+                    <div class="nickname label">
+                        <label>&#x3000;邮箱：</label>
+                        <input type="email" value="" placeholder="邮箱" name="email" [(ngModel)]="account.email"/>
+                    </div>
+                    <div class="birthday label">
+                        <label>&#x3000;生日：</label>
+                        <!--<input type="text" placeholder="yyyy-mm-dd" id="birthday"-->
+                               <!--name="birthday" [(ngModel)]="account.birthday" ngbDatepicker #e="ngbDatepicker" (click)="e.toggle()">-->
+                        <input type="text" placeholder="yyyy-mm-dd" id="birthday" name="birthday" [(ngModel)]="account.birthday">
+
+                    </div>
+                    <div class="nickname label">
+                        <label>&#x3000;地址：</label>
+                        <input type="text" value="" placeholder="地址" name="address" [(ngModel)]="account.address"/>
+                    </div>
+                    <div class="sign label">
+                        <label for="sign">&#x3000;签名：</label>
+                        <textarea id="sign"  name="signature" [(ngModel)]="account.signature"></textarea>
+                    </div>
+                    <input type="button" class="save" id="save" value="保存" (click)="save()">
+                </form>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

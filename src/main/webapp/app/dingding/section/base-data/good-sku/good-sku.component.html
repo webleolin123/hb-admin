@@ -1,0 +1,65 @@
+<nb-card>
+    <nb-card-header>
+        商品SKU
+    </nb-card-header>
+
+    <nb-card-body>
+        <!--<ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"-->
+                         <!--(editConfirm)="onSaveConfirm($event)" (createConfirm)="onCreateConfirm($event)">-->
+        <!--</ng2-smart-table>-->
+        <div id="content">
+            <div class="row">
+                <div class="search_box">
+                    <input type="text" class="search_input" placeholder="请输入关键字查询">
+                    <button class="search_btn">查询</button>
+                </div>
+                <button class="btn {{ settingsBtn[0].class }} btn-demo" (click)="add()">{{
+                    settingsBtn[0].buttonTitle}}
+                </button>
+            </div>
+            <table cellspacing="0">
+                <tr>
+                    <th>id</th>
+                    <th>所属商品</th>
+                    <th>名称</th>
+                    <th>数量</th>
+                    <th>日常价格</th>
+                    <th>日常特价</th>
+                    <th>活动价格</th>
+                    <th>活动特价</th>
+                    <th>操作</th>
+                </tr>
+                <tr *ngFor="let goodSku of goodSkus;">
+                    <td>{{goodSku.id}}</td>
+                    <td><span *ngIf="goodSku.goodName">{{goodSku.goodName}}</span></td>
+                    <td>{{goodSku.skuName}}</td>
+                    <td>{{goodSku.skuNum}}</td>
+                    <td>{{goodSku.dailyPrice}}</td>
+                    <td>{{goodSku.dailySpecialPrice}}</td>
+                    <td>{{goodSku.activityPrice}}</td>
+                    <td>{{goodSku.acticitySpecialPrice}}</td>
+                    <td>
+                        <button title="查看"><i class="ion-clipboard" (click)="check(goodSku.id)"></i></button>
+                        <button title="编辑"><i class="ion-edit" (click)="edit(goodSku.id)"></i></button>
+                        <button title="删除"><i class="ion-trash-a" (click)="delete(goodSku.id)"></i></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div *ngIf="goodSkus">
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [maxSize]="5" [rotate]="true"
+                                [boundaryLinks]="true" (pageChange)="loadPage(page)">
+                </ngb-pagination>
+                <label class="totalElements">共{{totalElements}}条记录</label>
+                <select class=" search_select_pageSize "[(ngModel)]="itemsPerPage" (ngModelChange)="pageSizechange()">
+                    <option value='10'>10条/页</option>
+                    <option value='15'>15条/页</option>
+                    <option value='20'>20条/页</option>
+                    <option value='30'>30条/页</option>
+                    <option value='50'>50条/页</option>
+                </select>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>

@@ -1,0 +1,59 @@
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserLabel">
+            人员详情
+        </h4>
+        <button type="button" class="close hand" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;
+        </button>
+    </div>
+    <div class="modal-body" *ngIf="personnelInfo">
+        <div class="" id="clf_detail">
+            <div class="content">
+                <div class="card" style="margin: 0;border-bottom: none;">
+                    <div class="card-content">
+                        <!--<jhi-alert-error></jhi-alert-error>-->
+                        <p class="shop" style="padding: 10px 30px">
+                            <span class="mySpan">人员id</span>
+                            <span>{{personnelInfo.id}}</span>
+                        </p>
+                        <p class="shop" style="padding: 10px 30px">
+                            <span class="mySpan">部门</span>
+                            <span>{{personnelInfo.department}}</span>
+                        </p>
+                        <p class="shop" style="padding: 10px 30px">
+                            <span class="mySpan">职位</span>
+                            <span>{{personnelInfo.position}}</span>
+                        </p>
+                        <p class="shop" style="padding: 10px 30px">
+                            <span class="mySpan">钉钉id</span>
+                            <span>{{personnelInfo.userid}}</span>
+                        </p>
+                        <p class="shop" style="padding: 10px 30px">
+                            <span class="mySpan">姓名</span>
+                            <span>{{personnelInfo.name}}</span>
+                        </p>
+                        <p class="shop" style="padding: 10px 30px">
+                            <span class="mySpan">手机号</span>
+                            <span>{{personnelInfo.mobile}}</span>
+                        </p>
+                        <p class="shop" style="padding: 10px 30px">
+                            <span class="mySpan">邮箱</span>
+                            <span>{{personnelInfo.email}}</span>
+                        </p>
+                        <p class="shop" style="padding: 10px 30px">
+                            <span class="mySpan">是否激活</span>
+                            <span [ngSwitch]="personnelInfo.active">
+                                <span *ngSwitchCase="true">是</span>
+                                <span *ngSwitchCase="false">否</span>
+                                <span *ngSwitchDefault>参数异常</span>
+                            </span>
+                        </p>
+                        <p class="shop" style="padding: 10px 30px">
+                            <span class="mySpan">角色</span>
+                            <span>{{personnelInfo.roles}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
